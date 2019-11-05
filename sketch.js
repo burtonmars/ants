@@ -23,7 +23,7 @@ function setup() {
 	input1.parent();
 	input2.parent();
 	input3.parent();
-	interval = setInterval(updateNumberAnts, 5000);
+	// interval = setInterval(updateNumberAnts, 5000);
 	for (let i = 0; i < numGreAnts; i++) {
 		greAnt = new Ant("green");
 		greAnts.push(greAnt);
@@ -41,14 +41,6 @@ function setup() {
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
 	simulate.mousePressed(draw);
-
-	textAlign(CENTER);
-}
-
-function updateNumberAnts() {
-	blueAntsCounter.html("Blue Ants: ");
-	greenAntsCounter.html("Green Ants: ");
-	redAntsCounter.html("Red Ants: ");
 }
 
 function draw() {

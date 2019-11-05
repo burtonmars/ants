@@ -24,12 +24,9 @@
 		canvas {
 			margin: auto;
 		}
+
 		h1 {
 			text-align: center;
-		}
-		#inputForm {
-			position: relative;
-			border: 2px;
 		}
 		#green {
 			color: #008000;
@@ -50,21 +47,21 @@
 <body style="background-color:#f2f2f2;text-align:center">
 	<h1>Self-Organizing Ants</h1>
 	<p><strong>Enter a number of ants for each job</strong></p>
-	<div id="inputForm">
-		Gatherer Ants <span id="green">(green)</span>:<br>
-		<div id="input1"></div>
+	<form>
+		<div>Gatherer Ants <span id="green">(green)</span>:<br>
+		<a id="input1"></a></div>
 		<br>
 		<br>
 		Soldier Ants <span id="red">(red)</span>:<br>
-		<div id="input2"></div>
+		<a id="input2"></a>
 		<br>
 		<br>
 		Builder Ants <span id="blue">(blue)</span>:<br>
-		<div id="input3"></div>
+		<a id="input3"></a>
 		<br>
 		<br>
 		<a id="simul"></a>
-	</div><br>
+	</form><br>
 	<div id="antFarm"></div>
 	<br>
 	<div>Blue Ants:40  Red Ants:40  Green Ants:40</div>
