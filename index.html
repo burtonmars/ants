@@ -18,8 +18,6 @@
 		body {
 			font-family: "Lucida Console", serif;
 			margin: 0;
-			margin-left: 80px;
-			margin-top: 5px;
 			padding: 10px;
 			overflow: hidden;
 		}
@@ -29,43 +27,45 @@
 		}
 
 		h1 {
-			margin-left: 150px;
+			text-align: center;
 		}
-		p1 {
-			font-size: 12px;
+		#green {
+			color: #008000;
+
+		}
+		#red {
+			color: #FF0000;
+		}
+		#blue {
+			color: #0000FF;
+		}
+		.antsInput {
+			width: 60px;
 		}
 	</style>
 </head>
 
-<body>
-	<script type = "text/javascript">
-		function calcBlueAnts() {
-			var num = totalAnts - (document.getElementById('greenAntsInput') +
-			document.getElementById('redAntsInput'));
-			return num;
-		}
-	</script>
+<body style="background-color:#f2f2f2;text-align:center">
 	<h1>Self-Organizing Ants</h1>
-	<h2>Choose Ratio of Ants</h2>
-	<p><strong>Enter a percentage between 1 and 98 for each ant job</strong></p>
-
-	<p1>
-		<form action="/action_page.php">
-			Gatherer Ants (green):<br>
-			<input id="greenAntsInput" type="text" name="greenAnts" max=98>
-			<br>
-			<br>
-			Soldier Ants (red):<br>
-			<input id="redAntsInput" type="text" name="redAnts" max=98>
-			<br>
-			<br>
-			Builder Ants (blue):<br>
-			<p>
-				(The rest of the ants are Builders)
-			</p>
-			<button id="simulate">simulate</button>
-		</form><br>
-	</p1>
+	<p><strong>Enter a number of ants for each job</strong></p>
+	<form action="/action_page.php">
+		Gatherer Ants <span id="green">(green)</span>:<br>
+		<input class="antsInput" id="greenAntsInput" type="text" name="greenAnts" max=100>
+		<br>
+		<br>
+		Soldier Ants <span id="red">(red)</span>:<br>
+		<input class="antsInput" id="redAntsInput" type="text" name="redAnts" max=100>
+		<br>
+		<br>
+		Builder Ants <span id="blue">(blue)</span>:<br>
+		<input class="antsInput" id="redAntsInput" type="text" name="redAnts" max=100>
+		<br>
+		<br>
+		<button id="simulate" style="width: 120px; height: 30px; font-size: 16px">SIMULATE</button>
+	</form><br>
+	<div id="antFarm"></div>
+	<br>
+	<div>Blue Ants:40  Red Ants:40  Green Ants:40</div>
 </body>
 
 </html>
