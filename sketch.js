@@ -17,6 +17,12 @@ let numBluAnts = totalAnts/3;
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
 	myCanvas.parent('antFarm');
+	let input1 = createInput();
+	let input2 = createInput();
+	let input3 = createInput();
+	input1.parent();
+	input2.parent();
+	input3.parent();
 	interval = setInterval(updateNumberAnts, 5000);
 	for (let i = 0; i < numGreAnts; i++) {
 		greAnt = new Ant("green");
@@ -32,7 +38,11 @@ function setup() {
 	}
 	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);
 
-	//document.getElementById("simulate").addEventListener("click", simulate);
+	let simulate = createButton("simulate");
+	simulate.parent('simul');
+	simulate.mousePressed(draw);
+
+	textAlign(CENTER);
 }
 
 function updateNumberAnts() {
