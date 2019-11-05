@@ -36,6 +36,6 @@ class Ant {
                 fill(color(255, 0, 0));
                 break;
         }
-        ellipse(this.x, this.y, this.size);
+        ellipse(this.x, this.y, this.size, this.size-this.size / 1.8);
     }
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,21 +16,56 @@
 
 	<style>
 		body {
-      margin:0;
-			margin-left:80px;
-			margin-top:15px;
-			padding:10px;
+			font-family: "Lucida Console", serif;
+			margin: 0;
+			margin-left: 80px;
+			margin-top: 5px;
+			padding: 10px;
 			overflow: hidden;
 		}
+
 		canvas {
-			margin:auto;
+			margin: auto;
 		}
+
 		h1 {
 			margin-left: 150px;
 		}
+		p1 {
+			font-size: 12px;
+		}
 	</style>
 </head>
+
 <body>
+	<script type = "text/javascript">
+		function calcBlueAnts() {
+			var num = totalAnts - (document.getElementById('greenAntsInput') +
+			document.getElementById('redAntsInput'));
+			return num;
+		}
+	</script>
 	<h1>Self-Organizing Ants</h1>
+	<h2>Choose Ratio of Ants</h2>
+	<p><strong>Enter a percentage between 1 and 98 for each ant job</strong></p>
+
+	<p1>
+		<form action="/action_page.php">
+			Gatherer Ants (green):<br>
+			<input id="greenAntsInput" type="text" name="greenAnts" max=98>
+			<br>
+			<br>
+			Soldier Ants (red):<br>
+			<input id="redAntsInput" type="text" name="redAnts" max=98>
+			<br>
+			<br>
+			Builder Ants (blue):<br>
+			<p>
+				(The rest of the ants are Builders)
+			</p>
+			<button id="simulate">simulate</button>
+		</form><br>
+	</p1>
 </body>
+
 </html>
