@@ -1,6 +1,6 @@
-
-var minAntSpeed = 260;
-let maxAntSpeed = 290;
+const minAntSpeed = 260;
+const maxAntSpeed = 290;
+const ferimoneBuffer = 20;
 
 class Ant {
 
@@ -37,5 +37,9 @@ class Ant {
                 break;
         }
         ellipse(this.x, this.y, this.size, this.size-this.size / 1.8);
+    }
+
+    changeJob() {
+
     }
 }
