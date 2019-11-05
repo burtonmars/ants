@@ -3,9 +3,7 @@ const windowWidth = 700;
 const speed = 4;
 const totalAnts = 120;
 
-let greAnt;
-let redAnt;
-let bluAnt;
+let greAnt, redAnt, bluAnt;
 
 let redAnts = [];
 let bluAnts = [];
