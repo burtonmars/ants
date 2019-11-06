@@ -1,13 +1,12 @@
-const minAntSpeed = 260;
-const maxAntSpeed = 290;
+const maxAntSpeed = 3;
 
 class Ant {
 
     constructor(color, buff) {
-        this.x = windowWidth / 2;
-        this.y = windowHeight / 2;
-        this.xspeed = Math.random(minAntSpeed, maxAntSpeed) * (Math.round(Math.random()) * 2 -1);
-        this.yspeed = Math.random(minAntSpeed, maxAntSpeed) * (Math.round(Math.random()) * 2 -1);
+        this.x =  floor(random(windowWidth));
+        this.y = floor(random(windowHeight));
+        this.xspeed =  floor(random(maxAntSpeed)) * Math.round(Math.random()) * 2 - 1
+        this.yspeed =  floor(random(maxAntSpeed)) * Math.round(Math.random()) * 2 - 1
         this.color = color;
         this.size = 12;
         this.ferimoneBuffer = buff; // measured by the radius in pixels
