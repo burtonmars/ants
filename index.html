@@ -38,8 +38,9 @@
 		#blue {
 			color: #0000FF;
 		}
-		.antsInput {
-			width: 60px;
+		input {
+			width: 50px;
+			height: 20px;
 		}
 	</style>
 </head>
@@ -48,16 +49,16 @@
 	<h1>Self-Organizing Ants</h1>
 	<p><strong>Enter a number of ants for each job</strong></p>
 	<form>
-		<div>Gatherer Ants <span id="green">(green)</span>:<br>
-		<a id="input1"></a></div>
+		Gatherer Ants <span id="green">(green)</span>:<br>
+		<a class="antsInput" id="input1"></a>
 		<br>
 		<br>
 		Soldier Ants <span id="red">(red)</span>:<br>
-		<a id="input2"></a>
+		<a class="antsInput" id="input2"></a>
 		<br>
 		<br>
 		Builder Ants <span id="blue">(blue)</span>:<br>
-		<a id="input3"></a>
+		<a class="antsInput" id="input3"></a>
 		<br>
 		<br>
 		<a id="simul"></a>
