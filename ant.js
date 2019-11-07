@@ -26,13 +26,13 @@ class Ant {
 
     show() {
         switch(this.color) {
-            case "green":
+            case "g":
                 fill(color(0, 255, 0));
                 break;
-            case "blue":
+            case "b":
                 fill(color(0, 0, 255));
                 break;
-            case "red":
+            case "r":
                 fill(color(255, 0, 0));
                 break;
         }
