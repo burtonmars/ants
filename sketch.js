@@ -18,7 +18,7 @@ let buffer = 5;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
-	myCanvas.parent('antFarm');
+	myCanvas.parent('ant-farm');
 	let input1 = createInput();
 	let input2 = createInput();
 	let input3 = createInput();
@@ -29,7 +29,16 @@ function setup() {
 
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
+	simulate.mousePressed(unpopulate);
 	simulate.mouseReleased(populate);
+}
+
+function unpopulate() {
+	this.greAnts = [];
+	this.redAnts = [];
+	this.bluAnts = [];
+	this.allAnts = [];
+	noLoop();
 }
 
 function populate() {
@@ -49,7 +58,7 @@ function populate() {
 		bluAnts.push(bluAnt);
 	}
 	
-	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);
+	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);\
 }
 
 function draw() {
