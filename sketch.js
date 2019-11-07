@@ -16,6 +16,7 @@ let numBluAnts = 0;
 
 let buffer = 5;
 let antCount;
+let decisionTime = 10000;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -25,10 +26,15 @@ function setup() {
 	let input3 = createInput();
 	
 	antCount = createDiv();
+	antCount.parent('color-count');
+	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
+		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+
 	input1.parent("input1");
 	input2.parent("input2");
 	input3.parent("input3");
-	let interval = setInterval(updateNumberAnts, 6000);
+	let intervalTotalCount = setInterval(updateNumberAnts, 6000);
+	let intervalIndividualCount = setInterval(checkChangeColor(allAnts), decisionTime);
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
 	simulate.mouseReleased(populate);
@@ -39,7 +45,6 @@ function populate() {
 	this.numRedAnts = document.getElementById('input2').value;
 	this.numBluAnts = document.getElementById('input3').value;
 
-	antCount.parent('color-count');
 	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
 		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
 
@@ -76,4 +81,10 @@ function draw() {
 function updateNumberAnts() {
 	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
 		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+}
+
+function checkChangeColor() {
+	for (const a of allAnts) {
+		a.color = weightDataCollected(a);
+	}
 }
