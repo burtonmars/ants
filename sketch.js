@@ -10,11 +10,12 @@ let greAnts = [];
 let allAnts = [];
 
 let totalAnts = 180;
-let numGreAnts = totalAnts/3;
-let numRedAnts = totalAnts/3;
-let numBluAnts = totalAnts/3;
+let numGreAnts = 0;
+let numRedAnts = 0;
+let numBluAnts = 0;
 
 let buffer = 5;
+let antCount;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -22,29 +23,26 @@ function setup() {
 	let input1 = createInput();
 	let input2 = createInput();
 	let input3 = createInput();
+	
+	antCount = createDiv();
 	input1.parent("input1");
 	input2.parent("input2");
 	input3.parent("input3");
-	// interval = setInterval(updateNumberAnts, 5000);
-
+	let interval = setInterval(updateNumberAnts, 6000);
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
-	simulate.mousePressed(unpopulate);
 	simulate.mouseReleased(populate);
-}
-
-function unpopulate() {
-	this.greAnts = [];
-	this.redAnts = [];
-	this.bluAnts = [];
-	this.allAnts = [];
-	noLoop();
 }
 
 function populate() {
 	this.numGreAnts = document.getElementById('input1').value;
 	this.numRedAnts = document.getElementById('input2').value;
 	this.numBluAnts = document.getElementById('input3').value;
+
+	antCount.parent('color-count');
+	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
+		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -57,8 +55,8 @@ function populate() {
 		bluAnt = new Ant("b", buffer);
 		bluAnts.push(bluAnt);
 	}
-	
-	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);\
+
+	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);
 }
 
 function draw() {
@@ -70,4 +68,12 @@ function draw() {
 		ant.show();
 		ant.countNearbyAnts(otherAnts);
 	}
+	this.numGreAnts = greAnts.length;
+	this.numRedAnts = redAnts.length;
+	this.numBluAnts = bluAnts.length;
+}
+
+function updateNumberAnts() {
+	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
+		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
 }
