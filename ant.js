@@ -39,13 +39,27 @@ class Ant {
         ellipse(this.x, this.y, this.size, this.size-this.size / 1.8);
     }
 
-    // checks current counts of all colors of ants seen and decides whether 
-    // to change color and returns a color (same color if it decides not
-    // to change)
-    checkChangeJob() {
-        // TODO: compare current this.antcount's, if current color has highest seen,
-        // change to lowest, otherwise stay the same 
-        return "green"; //STUB
+    // checks counts of ants seen by each ant and decides whether the ant should change jobs
+    // or remain the same color
+    checkChangeJob(ants) {
+        for (const a of ants) {
+            a.color = weighDataCollected(a);
+        }
+    }
+
+    weightDataCollected(a) {
+        if (this.blueAntCount < this.redAntCount) {
+            if (this.blueAntCount < this.greenAntCount) {
+                return "blue";
+            } else {
+                return "green";
+            }
+        }
+        if (this.redAntCount < this.greenAntCount) {
+            return "red";
+        } else {
+            return "green";
+        }
     }
 
     // checks list of other ants to see if it overlaps any of their buffers
