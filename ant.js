@@ -20,8 +20,8 @@ class Ant {
         if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
             this.yspeed = -this.yspeed;
         }
-        this.x += this.xspeed + random(-1, 1);
-        this.y += this.yspeed + random(-1, 1);
+        this.x += this.xspeed;
+        this.y += this.yspeed;
     }
 
     show() {
@@ -40,15 +40,16 @@ class Ant {
     }
 
     showBuffer() {
+        noStroke();
         switch(this.color) {
             case "g":
-                fill(color(0, 255, 0, 20));
+                fill(color(0, 255, 0, 8));
                 break;
             case "b":
-                fill(color(0, 0, 255, 30));
+                fill(color(0, 0, 255, 18));
                 break;
             case "r":
-                fill(color(255, 0, 0, 20));
+                fill(color(255, 0, 0, 9));
                 break;
         }
         let f = parseInt(this.ferimoneBuffer);
@@ -79,13 +80,24 @@ class Ant {
     }
 
     // checks list of other ants to see if it overlaps any of their buffers
-    // - if it does, check color and add some ammount to this.*antcount for that
-    //   color (amt added should be proportional to both ants speed and the size
-    //   of the buffer so that the length of the encounter * amt added equals one)
+    // - if it does, check color of other ant and add some ammount to this.*antcount 
+    //   for that color
     countNearbyAnts(ants) {
         for (const a of ants) {
-            // TODO: check if in buffer of ant a, check ant a's color and speed,
-            // add appropriate amt to this.*antcount 
+            if (this.x >= a.x - a.ferimoneBuffer / 2 && this.y >= a.y - a.ferimoneBuffer / 2 &&
+                this.x <= a.x + a.ferimoneBuffer / 2 && this.y <= a.y + a.ferimoneBuffer / 2) {
+                   switch(a.color) {
+                       case "b":
+                           this.blueAntCount += .1;
+                           break;
+                        case "g":
+                            this.greenAntCount += .1;
+                            break;
+                        case "r":
+                            this.redAntCount += .1;
+                            break
+                   } 
+                }
         }
     }
 }

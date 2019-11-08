@@ -34,7 +34,7 @@ function setup() {
 	input2.parent("input2");
 	input3.parent("input3");
 	let intervalTotalCount = setInterval(updateNumberAnts, 6000);
-	let intervalIndividualCount = setInterval(checkChangeColor(allAnts), decisionTime);
+	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
 	simulate.mouseReleased(populate);
@@ -69,7 +69,7 @@ function draw() {
 	background(51);
 	for (const ant of allAnts) {
 		let otherAnts = allAnts.slice();
-		otherAnts.splice(allAnts[allAnts.indexOf(ant)], 1);
+		otherAnts.splice(allAnts.indexOf(ant), 1);
 		ant.showBuffer();
 		ant.show();
 		ant.update();
@@ -85,8 +85,28 @@ function updateNumberAnts() {
 		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
 }
 
-function checkChangeColor() {
+function checkChangeJob() {
 	for (const a of allAnts) {
-		a.color = weightDataCollected(a);
+		a.color = a.weightDataCollected(a);
 	}
+	this.numGreAnts = 0;
+	this.numBluAnts = 0;
+	this.numRedAnts = 0;
+	for (const a of allAnts) {
+		switch(this.color) {
+			case "g":
+				this.numGreAnts++;
+				break;
+			case "r":
+				this.numRedAnts++;
+				break;
+			case "b":
+				this.numBluAnts++;
+				break;
+		}
+
+
+	}
+	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
+		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
 }
