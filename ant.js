@@ -39,6 +39,22 @@ class Ant {
         ellipse(this.x, this.y, this.size, this.size-this.size / 1.8);
     }
 
+    showBuffer() {
+        switch(this.color) {
+            case "g":
+                fill(color(0, 255, 0, 20));
+                break;
+            case "b":
+                fill(color(0, 0, 255, 30));
+                break;
+            case "r":
+                fill(color(255, 0, 0, 20));
+                break;
+        }
+        let f = parseInt(this.ferimoneBuffer);
+        ellipse(this.x, this.y, f, f - f / 2);
+    }
+
     // checks counts of ants seen by each ant and decides whether the ant should change jobs
     // or remain the same color
     checkChangeJob(ants) {
@@ -50,15 +66,15 @@ class Ant {
     weightDataCollected(a) {
         if (this.blueAntCount < this.redAntCount) {
             if (this.blueAntCount < this.greenAntCount) {
-                return "blue";
+                return "b";
             } else {
-                return "green";
+                return "g";
             }
         }
         if (this.redAntCount < this.greenAntCount) {
-            return "red";
+            return "r";
         } else {
-            return "green";
+            return "g";
         }
     }
 

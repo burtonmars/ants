@@ -14,7 +14,7 @@ let numGreAnts = 0;
 let numRedAnts = 0;
 let numBluAnts = 0;
 
-let buffer = 5;
+let buffer = 50;
 let antCount;
 let decisionTime = 10000;
 
@@ -48,6 +48,7 @@ function populate() {
 	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
 		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
 
+	buffer = document.getElementById("buffer-slider").value;
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -69,8 +70,9 @@ function draw() {
 	for (const ant of allAnts) {
 		let otherAnts = allAnts.slice();
 		otherAnts.splice(allAnts[allAnts.indexOf(ant)], 1);
-		ant.update();
+		ant.showBuffer();
 		ant.show();
+		ant.update();
 		ant.countNearbyAnts(otherAnts);
 	}
 	this.numGreAnts = greAnts.length;

@@ -22,7 +22,7 @@
 		}
 
 		canvas {
-			margin: auto;
+			margin-top: 10px;
 		}
 
 		h1 {
@@ -40,7 +40,11 @@
 		}
 		input {
 			width: 50px;
-			height: 20px;
+			height: 14px;
+			position: relative;
+		}
+		#input-boxes-ant-numbers {
+			font-size: 12px;
 		}
 	</style>
 </head>
@@ -48,18 +52,21 @@
 <body style="background-color:#f2f2f2;text-align:center">
 	<h1>Self-Organizing Ants</h1>
 	<p><strong>Enter a number of ants for each job</strong></p>
-	<div>
-		Gatherer Ants <span id="gr">(green)</span>:<br>
-		<input class="ants-input" id="input1"></input>
-		<br>
-		<br>
-		Soldier Ants <span id="rd">(red)</span>:<br>
-		<input class="ants-input" id="input2"></input>
-		<br>
-		<br>
-		Builder Ants <span id="bl">(blue)</span>:<br>
-		<input class="ants-input" id="input3"></input>
-		<br>
+	<div id="input-boxes-ant-numbers">
+		<div>
+			Gatherer Ants <span id="green">(green)</span>
+			<input class="ants-input" id="input1"></input>
+		</div><br>
+		<div>
+			Soldier Ants <span id="red">(red)</span>
+			<input class="ants-input" id="input2"></input>
+		</div><br>
+		<div>
+			Builder Ants <span id="blue">(blue)</span>
+			<input class="ants-input" id="input3"></input>
+		</div><br>
+		<label for="ferimone-strength">Ferimone Strength</label>
+		<input type="range" min="0" max="250" value="5" id="buffer-slider"></div>
 		<br>
 		<a id="simul"></a>
 	</div><br>
