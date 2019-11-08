@@ -24,16 +24,14 @@ function setup() {
 	let input1 = createInput();
 	let input2 = createInput();
 	let input3 = createInput();
-	
+
 	antCount = createDiv();
 	antCount.parent('color-count');
-	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
-		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+	showAntCount();
 
 	input1.parent("input1");
 	input2.parent("input2");
 	input3.parent("input3");
-	let intervalTotalCount = setInterval(updateNumberAnts, 6000);
 	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
@@ -45,8 +43,8 @@ function populate() {
 	this.numRedAnts = document.getElementById('input2').value;
 	this.numBluAnts = document.getElementById('input3').value;
 
-	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
-		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+	antCount.html("Gatherers:" + this.numGreAnts + " Soldiers:" +
+		this.numRedAnts + " Builders:" + this.numBluAnts);
 
 	buffer = document.getElementById("buffer-slider").value;
 	for (let i = 0; i < this.numGreAnts; i++) {
@@ -78,35 +76,33 @@ function draw() {
 	this.numGreAnts = greAnts.length;
 	this.numRedAnts = redAnts.length;
 	this.numBluAnts = bluAnts.length;
-}
-
-function updateNumberAnts() {
-	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
-		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+	
+	showAntCount();
 }
 
 function checkChangeJob() {
 	for (const a of allAnts) {
 		a.color = a.weightDataCollected(a);
 	}
-	this.numGreAnts = 0;
-	this.numBluAnts = 0;
-	this.numRedAnts = 0;
+	greAnts = [];
+	redAnts = [];
+	bluAnts = [];
 	for (const a of allAnts) {
-		switch(this.color) {
+		switch (a.color) {
 			case "g":
-				this.numGreAnts++;
+				greAnts.push(a);
 				break;
 			case "r":
-				this.numRedAnts++;
+				redAnts.push(a);
 				break;
 			case "b":
-				this.numBluAnts++;
+				bluAnts.push(a);
 				break;
 		}
-
-
 	}
-	antCount.html("Green Ants:" + this.numGreAnts + " Red Ants:" +
-		this.numRedAnts + " Blue Ants:" + this.numBluAnts);
+}
+
+function showAntCount() {
+	antCount.html("Gatherers:" + this.numGreAnts + " Soldiers:" +
+		this.numRedAnts + " Builders:" + this.numBluAnts);
 }
