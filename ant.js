@@ -20,8 +20,8 @@ class Ant {
         if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
             this.yspeed = -this.yspeed;
         }
-        this.x += this.xspeed;
-        this.y += this.yspeed;
+        this.x += this.xspeed + random(-1, 1);
+        this.y += this.yspeed + random(-1, 1);
     }
 
     show() {
