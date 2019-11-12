@@ -64,18 +64,32 @@ class Ant {
         }
     }
 
-    weightDataCollected(a) {
-        if (this.blueAntCount < this.redAntCount) {
-            if (this.blueAntCount < this.greenAntCount) {
-                return "b";
+    weightDataCollected(a, alg) {
+        if (alg) {
+            console.log("Moving from most popular color to least popular");
+            if (this.blueAntCount < this.redAntCount) {
+                if (this.blueAntCount < this.greenAntCount) {
+                    return "b";
+                } else {
+                    return "g";
+                }
+            }
+            if (this.redAntCount < this.greenAntCount) {
+                return "r";
             } else {
                 return "g";
             }
-        }
-        if (this.redAntCount < this.greenAntCount) {
-            return "r";
         } else {
-            return "g";
+            console.log("Random selection of color");
+            let randomColor = Math.floor((Math.random() * 3) + 1);
+            switch (randomColor) {
+                case 1:
+                    return "b";
+                case 2:
+                    return "g";
+                case 3:
+                    return "r";
+            }
         }
     }
 

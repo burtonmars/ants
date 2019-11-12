@@ -57,18 +57,21 @@
 	<div id="input-boxes-ant-numbers">
 		<div>
 			Gatherer Ants <span id="green">(green)</span>
-			<input class="ants-input" id="input1"></input>
+			<input class="ants-input" id="input1" autocomplete="off"></input>
 		</div><br>
 		<div>
 			Soldier Ants <span id="red">(red)</span>
-			<input class="ants-input" id="input2"></input>
+			<input class="ants-input" id="input2" autocomplete="off"></input>
 		</div><br>
 		<div>
 			Builder Ants <span id="blue">(blue)</span>
-			<input class="ants-input" id="input3"></input>
+			<input class="ants-input" id="input3" autocomplete="off"></input>
 		</div><br>
-		<label for="ferimone-strength">Ferimone Strength</label>
-		<input type="range" min="0" max="250" value="5" id="buffer-slider"></div>
+			<label for="ferimone-strength"">Ferimone Strength</label>
+			<input type="range" min="0" max="250" value="5" id="buffer-slider">
+			<input type="checkbox" id="randomize-checkbox" style="margin-left:30px">
+			<label for="randomize-checkbox">Randomize Decisions</label>
+		</div>
 		<br>
 		<a id="simul"></a>
 	</div><br>
