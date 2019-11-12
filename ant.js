@@ -65,31 +65,16 @@ class Ant {
     }
 
     weightDataCollected(a, alg) {
-        if (alg) {
-            console.log("Moving from most popular color to least popular");
-            if (this.blueAntCount < this.redAntCount) {
-                if (this.blueAntCount < this.greenAntCount) {
-                    return "b";
-                } else {
-                    return "g";
-                }
-            }
-            if (this.redAntCount < this.greenAntCount) {
-                return "r";
-            } else {
-                return "g";
-            }
-        } else {
-            console.log("Random selection of color");
-            let randomColor = Math.floor((Math.random() * 3) + 1);
-            switch (randomColor) {
-                case 1:
-                    return "b";
-                case 2:
-                    return "g";
-                case 3:
-                    return "r";
-            }
+        switch (alg) {
+            case "basic":
+                console.log("Moving from most popular color to least popular");
+                return this.basicDecisionAlgorithm(a);
+            case "threshold":
+                console.log("Only change color when threshold reached");
+                return this.thresholdAlgorithm(a);
+            case "none":
+                console.log("Random selection of color");
+                return this.randomColorAlgorithm();
         }
     }
 
@@ -98,8 +83,8 @@ class Ant {
     //   for that color
     countNearbyAnts(ants) {
         for (const a of ants) {
-            if (this.x >= a.x - a.ferimoneBuffer / 2 && this.y >= a.y - a.ferimoneBuffer / 2 &&
-                this.x <= a.x + a.ferimoneBuffer / 2 && this.y <= a.y + a.ferimoneBuffer / 2) {
+            if (this.x + (this.size / 2) >= a.x - a.ferimoneBuffer / 2 && this.y >= a.y - a.ferimoneBuffer / 2 &&
+                this.x <= a.ferimoneBuffer / 2 && this.y <= a.y + a.ferimoneBuffer / 2) {
                    switch(a.color) {
                        case "b":
                            this.blueAntCount += .1;
@@ -112,6 +97,54 @@ class Ant {
                             break
                    } 
                 }
+        }
+    }
+
+    // if the ants color is the most seen by the ant it changes to the least seen color,
+    // otherwise it stays the same color
+    basicDecisionAlgorithm(a) {
+        if (this.blueAntCount < this.redAntCount) {
+            if (this.blueAntCount < this.greenAntCount) {
+                return "b";
+            } else {
+                return "g";
+            }
+        }
+        if (this.redAntCount < this.greenAntCount) {
+            return "r";
+        } else {
+            return "g";
+        }
+    }
+
+    // same as basic algorithm with added threshold: only change if ants own color is the most 
+    // seen by that ant AND the other colors seen are less by a certain margin
+    thresholdAlgorithm(a) {
+        if (this.blueAntCount < this.redAntCount) {
+            if (this.blueAntCount < this.greenAntCount) {
+                return "b";
+            } else {
+                return "g";
+            }
+        }
+        if (this.redAntCount < this.greenAntCount) {
+            return "r";
+        } else {
+            return "g";
+        }
+    }
+
+    // ant does not take into account what other ants it has seen, just randomly
+    // selects one of the three colors
+    randomColorAlgorithm() {
+        let randomColor = Math.floor((Math.random() * 3) + 1);
+        switch (randomColor) {
+            case 1:
+                return "b";
+            case 2:
+                return "g";
+            case 3:
+                return "r";
         }
     }
 }

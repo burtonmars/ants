@@ -21,6 +21,7 @@ let clock;
 let counter = 0;
 let useAlgorithm;
 let randomizeCheckbox;
+let selAlgorithm;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -62,7 +63,15 @@ function timeSelfOrganization() {
 
 function populateColony() {
 	showAntCount();
-	useAlgorithm = document.getElementById("randomize-checkbox").checked;
+	randomAlgorithm = document.getElementById("randomize-checkbox").checked;
+	thresholdAlgorithm = document.getElementById("threshold-checkbox").checked;
+	if (randomAlgorithm) {
+		selAlgorithm = "none";
+	} else if (thresholdAlgorithm) {
+		selAlgorithm = "threshold";
+	} else {
+		selAlgorithm = "basic";
+	}
 	buffer = document.getElementById("buffer-slider").value;
 	timer = setInterval(timeSelfOrganization, 1000);
 	for (let i = 0; i < this.numGreAnts; i++) {
@@ -109,7 +118,7 @@ function draw() {
 
 function checkChangeJob() {
 	for (const a of allAnts) {
-		a.color = a.weightDataCollected(a, !useAlgorithm);
+		a.color = a.weightDataCollected(a, selAlgorithm);
 	}
 	greAnts = [];
 	redAnts = [];
