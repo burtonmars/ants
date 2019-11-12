@@ -18,10 +18,11 @@ let buffer = 50;
 let antCount;
 let decisionTime = 10000;
 let clock;
-let counter = 0;
-let useAlgorithm;
+let counter1 = 0;
+let counter2 = 0;
 let randomizeCheckbox;
-let selAlgorithm;
+let setAlgorithm;
+let firstEqReached = false;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -40,9 +41,13 @@ function setup() {
 
 	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 
-	clock = createP();
-	clock.parent("count-timer");
-	clock.html(0);
+	clock1 = createP();
+	clock1.parent("eq1-timer");
+	clock1.html("First Equilibrium: 0");
+
+	clock2 = createP();
+	clock2.parent("eq2-timer");
+	clock2.html("Second Equilibrium: 0");
 
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
@@ -54,15 +59,23 @@ function populateColony() {
 	showAntCount();
 	randomAlgorithm = document.getElementById("randomize-checkbox").checked;
 	thresholdAlgorithm = document.getElementById("threshold-checkbox").checked;
+	memoryAlgorithm = document.getElementById("memory-checkbox").checked;
+
 	if (randomAlgorithm) {
-		selAlgorithm = "none";
+		console.log("no algorithm being used");
+		setAlgorithm = "none"; 
+	} else if (memoryAlgorithm) {
+			console.log("memoryAlgorithm being used");
+			setAlgorithm = "memory";
 	} else if (thresholdAlgorithm) {
-		selAlgorithm = "threshold";
+		console.log("threshold being used");
+		setAlgorithm = "threshold";
 	} else {
-		selAlgorithm = "basic";
+		console.log("basic algorithm being used");
+		setAlgorithm = "basic";
 	}
 	buffer = document.getElementById("buffer-slider").value;
-	timer = setInterval(timeSelfOrganization, 1000);
+	timer1 = setInterval(timeFirstSelfOrganization, 1000);
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -86,19 +99,25 @@ function setNumAntsFromInput() {
 	this.totalAnts = this.numGreAnts + this.numBluAnts + this.numRedAnts;
 }
 
-function timeSelfOrganization() {
-	clock.html("Timer: " + counter++);
+function timeFirstSelfOrganization() {
+	clock1.html("First Equilibrium: " + counter1++);
+}
+
+function timeSecondSelfOrganization() {
+	clock2.html("Second Equilibrium: " + counter2++);
 }
 
 function draw() {
 	background(51);
+	let otherAnts = allAnts.slice();
 	for (const ant of allAnts) {
-		let otherAnts = allAnts.slice();
 		otherAnts.splice(allAnts.indexOf(ant), 1);
 		ant.showBuffer();
 		ant.show();
 		ant.update();
 		ant.countNearbyAnts(otherAnts);
+		otherAnts.push(ant);
+		ant.setOtherAnts(allAnts);
 	}
 	numGreAnts = greAnts.length;
 	numRedAnts = redAnts.length;
@@ -111,14 +130,19 @@ function draw() {
 	this.totalAnts = numGreAnts + numRedAnts + numBluAnts;
 
 	if (this.colonyBalanced()) {
-		clearInterval(timer);
+		clearInterval(timer1);
+		if (firstEqReached) {
+			clearInterval(timer2)
+		} else {
+			this.startSecondTimer();
+		}
 	}
 	showAntCount();
 }
 
 function checkChangeJob() {
 	for (const a of allAnts) {
-		a.color = a.weightDataCollected(a, selAlgorithm);
+		a.color = a.weightDataCollected(a, setAlgorithm);
 	}
 	greAnts = [];
 	redAnts = [];
@@ -143,9 +167,14 @@ function showAntCount() {
 		this.numRedAnts + " Builders:" + this.numBluAnts);
 }
 
+function startSecondTimer() {
+	firstEqReached = true;
+	timer2 = setInterval(timeSecondSelfOrganization, 1000);
+}
+
 function colonyBalanced() {
 	let oneThirdOfAnts = Math.round(this.totalAnts / 3);
-	let allowance = 2;
+	let allowance = this.totalAnts * .3;
 	if (numGreAnts < oneThirdOfAnts + allowance &&
 		numGreAnts > oneThirdOfAnts - allowance &&
 		numBluAnts < oneThirdOfAnts + allowance &&

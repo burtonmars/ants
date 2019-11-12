@@ -48,6 +48,10 @@
 			font-size: 12px;
 			text-align: center;
 		}
+		#simul {
+			height: 20px;
+			width: 100px;
+		}
 	</style>
 </head>
 
@@ -67,20 +71,25 @@
 			Builder Ants <span id="blue">(blue)</span>
 			<input class="ants-input" id="input3" autocomplete="off"></input>
 		</div><br>
-			<label for="ferimone-strength"">Ferimone Strength</label>
+			<label for="ferimone-strength">Ferimone Strength</label>
 			<input type="range" min="0" max="250" value="5" id="buffer-slider">
+		<div style="margin-top:10px">
 			<input type="checkbox" id="randomize-checkbox" style="margin-left:20px">
 			<label for="randomize-checkbox">Randomize Decisions</label>
+			<input type="checkbox" id="memory-checkbox" style="margin-left:20px">
+			<label for="memory-checkbox">Add Memory</label>
 			<input type="checkbox" id="threshold-checkbox" style="margin-left:20px">
 			<label for="threshold-checkbox">Add Threshold</label>
 		</div>
+	</div> 
 		<br>
 		<a id="simul"></a>
 	</div><br>
 	<div id="ant-farm"></div>
 	<br>
 	<p id="color-count"></p>
-	<p id="count-timer"></p>
+	<p id="eq1-timer"></p>
+	<p id="eq2-timer"></p>
 </body>
 
 </html>

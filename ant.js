@@ -11,6 +11,7 @@ class Ant {
         this.redAntCount = 0;
         this.blueAntCount = 0;
         this.greenAntCount = 0;
+        this.otherAnts = [];
     }
 
     update() {
@@ -67,7 +68,7 @@ class Ant {
     weightDataCollected(a, alg) {
         switch (alg) {
             case "basic":
-                console.log("Moving from most popular color to least popular");
+                console.log("Only checking ferimones detected at time of change");
                 return this.basicDecisionAlgorithm(a);
             case "threshold":
                 console.log("Only change color when threshold reached");
@@ -75,6 +76,9 @@ class Ant {
             case "none":
                 console.log("Random selection of color");
                 return this.randomColorAlgorithm();
+            case "memory":
+                console.log("Mem algorithm being used: Moving from most popular color to least popular");
+                return this.memoryDecisionAlgorithm(a);
         }
     }
 
@@ -94,15 +98,28 @@ class Ant {
                         break;
                     case "r":
                         this.redAntCount += .1;
-                        break
+                        break;
                 }
             }
         }
     }
 
+    // checks what ferimones are currently being detected and changes to the one that is least
+    // common
+    basicDecisionAlgorithm(a) {
+        let thisAnt = a;
+        this.blueAntCount = 0;
+        this.greenAntCount = 0;
+        this.redAntCount = 0;
+        console.log(this.otherAnts);
+        this.countNearbyAnts(this.otherAnts);
+        console.log(thisAnt);
+        return this.memoryDecisionAlgorithm(thisAnt);
+    }
+
     // if the ants color is the most seen by the ant it changes to the least seen color,
     // otherwise it stays the same color
-    basicDecisionAlgorithm(a) {
+    memoryDecisionAlgorithm(a) {
         if (this.blueAntCount < this.redAntCount) {
             if (this.blueAntCount < this.greenAntCount) {
                 return "b";
@@ -121,53 +138,63 @@ class Ant {
     // seen by that ant AND the other colors seen are less by a certain margin
     thresholdAlgorithm(a) {
         let totalAntsSeen = this.redAntCount + this.greenAntCount + this.blueAntCount;
-        let threshold = totalAntsSeen * .02;
-        console.log(totalAntsSeen);
-        console.log(threshold);
+        let threshold = totalAntsSeen * .03;
         let c = this.color;
         switch (c) {
             case "b":
-                if (this.redAntCount > this.blueAntCount || this.greenAntCount > this.blueAntCount) {
-                        return "b";
-                    } else {
-                        // get here if current color is "b" and its the most seen color
-                        // check if the difference between nbr seen this color and nbr seen each other color is
-                        // greater than threshold, if yes, change to that color, if no stay "b"
-                        if (this.blueAntCount - this.redAntCount > threshold ||
-                            this.blueAntCount - this.greenAntCount > threshold) {
-                            return this.redAntCount < this.greenAntCount ? "r" : "g";
-                            } else {
-                                return "b";
-                            }
-                    }
+                return this.thresholdBlueChangeCheck(threshold);
             case "r":
-                    if (this.blueAntCount > this.redAntCount || this.greenAntCount > this.redAntCount) {
-                        return "r";
-                    } else {
-                        // get here if current color is "r" and its the most seen color
-                        // check if the difference between nbr seen this color and nbr seen each other color is
-                        // greater than threshold, if yes, change to that color, if no stay "r"
-                        if (this.redAntCount - this.blueAntCount > threshold ||
-                            this.redAntCount - this.greenAntCount > threshold) {
-                            return this.blueAntCount < this.greenAntCount ? "b" : "g";
-                            } else {
-                                return "r";
-                            }
-                    }
+                return this.thresholdRedChangeCheck(threshold);
             case "g":
-                    if (this.greenAntCount > this.blueAntCount || this.greenAntCount > this.redAntCount) {
-                        return "g";
-                    } else {
-                        // get here if current color is "b" and its the most seen color
-                        // check if the difference between nbr seen this color and nbr seen each other color is
-                        // greater than threshold, if yes, change to that color, if no stay "b"
-                        if (this.greenAntCount - this.redAntCount > threshold ||
-                            this.greenAntCount - this.blueAntCount > threshold) {
-                            return this.redAntCount < this.blueAntCount ? "r" : "b";
-                            } else {
-                                return "g";
-                            }
-                    }
+                return this.thresholdGreenChangeCheck(threshold);
+        }
+    }
+
+    thresholdBlueChangeCheck(threshold) {
+        if (this.redAntCount > this.blueAntCount || this.greenAntCount > this.blueAntCount) {
+            return "b";
+        } else {
+            // get here if current color is "b" and its the most seen color
+            // check if the difference between nbr seen this color and nbr seen each other color is
+            // greater than threshold, if yes, change to that color, if no stay "b"
+            if (this.blueAntCount - this.redAntCount > threshold ||
+                this.blueAntCount - this.greenAntCount > threshold) {
+                return this.redAntCount < this.greenAntCount ? "r" : "g";
+                } else {
+                    return "b";
+                }
+        }
+    }
+
+    thresholdRedChangeCheck(threshold) {
+        if (this.blueAntCount > this.redAntCount || this.greenAntCount > this.redAntCount) {
+            return "r";
+        } else {
+            // get here if current color is "r" and its the most seen color
+            // check if the difference between nbr seen this color and nbr seen each other color is
+            // greater than threshold, if yes, change to that color, if no stay "r"
+            if (this.redAntCount - this.blueAntCount > threshold ||
+                this.redAntCount - this.greenAntCount > threshold) {
+                return this.blueAntCount < this.greenAntCount ? "b" : "g";
+                } else {
+                    return "r";
+                }
+        }
+    }
+
+    thresholdGreenChangeCheck(threshold) {
+        if (this.blueAntCount > this.greenAntCount || this.redAntCount > this.greenAntCount) {
+            return "g";
+        } else {
+            // get here if current color is "b" and its the most seen color
+            // check if the difference between nbr seen this color and nbr seen each other color is
+            // greater than threshold, if yes, change to that color, if no stay "b"
+            if (this.greenAntCount - this.redAntCount > threshold ||
+                this.greenAntCount - this.blueAntCount > threshold) {
+                return this.redAntCount < this.blueAntCount ? "r" : "b";
+                } else {
+                    return "g";
+                }
         }
     }
 
@@ -183,5 +210,9 @@ class Ant {
             case 3:
                 return "r";
         }
+    }
+
+    setOtherAnts(ants) {
+        this.otherAnts = ants;
     }
 }
