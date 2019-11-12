@@ -1,10 +1,10 @@
 class Ant {
 
     constructor(color, buff) {
-        this.x =  floor(random(windowWidth));
+        this.x = floor(random(windowWidth));
         this.y = floor(random(windowHeight));
-        this.xspeed = Math.random() * (Math.round(Math.random()) * 2 -1);
-        this.yspeed = Math.random() * (Math.round(Math.random()) * 2 -1);
+        this.xspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);
+        this.yspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);
         this.color = color;
         this.size = 12;
         this.ferimoneBuffer = buff; // measured by the radius in pixels
@@ -25,7 +25,7 @@ class Ant {
     }
 
     show() {
-        switch(this.color) {
+        switch (this.color) {
             case "g":
                 fill(color(0, 255, 0));
                 break;
@@ -36,12 +36,12 @@ class Ant {
                 fill(color(255, 0, 0));
                 break;
         }
-        ellipse(this.x, this.y, this.size, this.size-this.size / 1.8);
+        ellipse(this.x, this.y, this.size, this.size - this.size / 1.8);
     }
 
     showBuffer() {
         noStroke();
-        switch(this.color) {
+        switch (this.color) {
             case "g":
                 fill(color(0, 255, 0, 8));
                 break;
@@ -85,18 +85,18 @@ class Ant {
         for (const a of ants) {
             if (this.x + (this.size / 2) >= a.x - a.ferimoneBuffer / 2 && this.y >= a.y - a.ferimoneBuffer / 2 &&
                 this.x <= a.ferimoneBuffer / 2 && this.y <= a.y + a.ferimoneBuffer / 2) {
-                   switch(a.color) {
-                       case "b":
-                           this.blueAntCount += .1;
-                           break;
-                        case "g":
-                            this.greenAntCount += .1;
-                            break;
-                        case "r":
-                            this.redAntCount += .1;
-                            break
-                   } 
+                switch (a.color) {
+                    case "b":
+                        this.blueAntCount += .1;
+                        break;
+                    case "g":
+                        this.greenAntCount += .1;
+                        break;
+                    case "r":
+                        this.redAntCount += .1;
+                        break
                 }
+            }
         }
     }
 
@@ -120,17 +120,54 @@ class Ant {
     // same as basic algorithm with added threshold: only change if ants own color is the most 
     // seen by that ant AND the other colors seen are less by a certain margin
     thresholdAlgorithm(a) {
-        if (this.blueAntCount < this.redAntCount) {
-            if (this.blueAntCount < this.greenAntCount) {
-                return "b";
-            } else {
-                return "g";
-            }
-        }
-        if (this.redAntCount < this.greenAntCount) {
-            return "r";
-        } else {
-            return "g";
+        let totalAntsSeen = this.redAntCount + this.greenAntCount + this.blueAntCount;
+        let threshold = totalAntsSeen * .02;
+        console.log(totalAntsSeen);
+        console.log(threshold);
+        let c = this.color;
+        switch (c) {
+            case "b":
+                if (this.redAntCount > this.blueAntCount || this.greenAntCount > this.blueAntCount) {
+                        return "b";
+                    } else {
+                        // get here if current color is "b" and its the most seen color
+                        // check if the difference between nbr seen this color and nbr seen each other color is
+                        // greater than threshold, if yes, change to that color, if no stay "b"
+                        if (this.blueAntCount - this.redAntCount > threshold ||
+                            this.blueAntCount - this.greenAntCount > threshold) {
+                            return this.redAntCount < this.greenAntCount ? "r" : "g";
+                            } else {
+                                return "b";
+                            }
+                    }
+            case "r":
+                    if (this.blueAntCount > this.redAntCount || this.greenAntCount > this.redAntCount) {
+                        return "r";
+                    } else {
+                        // get here if current color is "r" and its the most seen color
+                        // check if the difference between nbr seen this color and nbr seen each other color is
+                        // greater than threshold, if yes, change to that color, if no stay "r"
+                        if (this.redAntCount - this.blueAntCount > threshold ||
+                            this.redAntCount - this.greenAntCount > threshold) {
+                            return this.blueAntCount < this.greenAntCount ? "b" : "g";
+                            } else {
+                                return "r";
+                            }
+                    }
+            case "g":
+                    if (this.greenAntCount > this.blueAntCount || this.greenAntCount > this.redAntCount) {
+                        return "g";
+                    } else {
+                        // get here if current color is "b" and its the most seen color
+                        // check if the difference between nbr seen this color and nbr seen each other color is
+                        // greater than threshold, if yes, change to that color, if no stay "b"
+                        if (this.greenAntCount - this.redAntCount > threshold ||
+                            this.greenAntCount - this.blueAntCount > threshold) {
+                            return this.redAntCount < this.blueAntCount ? "r" : "b";
+                            } else {
+                                return "g";
+                            }
+                    }
         }
     }
 

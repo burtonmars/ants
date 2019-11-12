@@ -37,28 +37,17 @@ function setup() {
 	input1.parent("input1");
 	input2.parent("input2");
 	input3.parent("input3");
-	
+
 	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 
 	clock = createP();
 	clock.parent("count-timer");
 	clock.html(0);
+
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
 	simulate.mousePressed(setNumAntsFromInput);
 	simulate.mouseReleased(populateColony);
-}
-
-function setNumAntsFromInput() {
-	this.numGreAnts = document.getElementById('input1').value;
-	this.numRedAnts = document.getElementById('input2').value;
-	this.numBluAnts = document.getElementById('input3').value;
-	
-	this.totalAnts = this.numGreAnts + this.numBluAnts + this.numRedAnts;
-}
-
-function timeSelfOrganization() {
-	clock.html("Timer: " + counter++);
 }
 
 function populateColony() {
@@ -90,6 +79,17 @@ function populateColony() {
 	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);
 }
 
+function setNumAntsFromInput() {
+	this.numGreAnts = document.getElementById('input1').value;
+	this.numRedAnts = document.getElementById('input2').value;
+	this.numBluAnts = document.getElementById('input3').value;
+	this.totalAnts = this.numGreAnts + this.numBluAnts + this.numRedAnts;
+}
+
+function timeSelfOrganization() {
+	clock.html("Timer: " + counter++);
+}
+
 function draw() {
 	background(51);
 	for (const ant of allAnts) {
@@ -109,7 +109,7 @@ function draw() {
 	this.numBluAnts = bluAnts.length;
 
 	this.totalAnts = numGreAnts + numRedAnts + numBluAnts;
-	
+
 	if (this.colonyBalanced()) {
 		clearInterval(timer);
 	}
@@ -149,7 +149,7 @@ function colonyBalanced() {
 	if (numGreAnts < oneThirdOfAnts + allowance &&
 		numGreAnts > oneThirdOfAnts - allowance &&
 		numBluAnts < oneThirdOfAnts + allowance &&
-		numBluAnts > oneThirdOfAnts - allowance && 
+		numBluAnts > oneThirdOfAnts - allowance &&
 		oneThirdOfAnts > 0) {
 		return true;
 	} else {
