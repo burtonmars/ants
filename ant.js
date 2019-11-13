@@ -131,9 +131,6 @@ class Ant {
                 }
             }
         }
-        console.log(this.otherAnts);
-        thisAnt.countNearbyAnts(this.otherAnts);
-        console.log(thisAnt);
         return this.memoryDecisionAlgorithm(thisAnt);
     }
 

@@ -108,7 +108,7 @@ function timeFirstSelfOrganization() {
 }
 
 function averageEqulibriumCounter() {
-	avgSpread.html("Average Spread: " + Math.floor(avgDiff / 10) * 10);
+	avgSpread.html("Average Spread: " + (Math.floor(avgDiff / 10) * 10));
 }
 
 function draw() {
@@ -135,6 +135,7 @@ function draw() {
 
 	if (this.colonyBalanced()) {
 		clearInterval(timer);
+		console.log(" TIMER STOPPED ");
 		avgEq = setInterval(averageEqulibriumCounter, 10000);
 	}
 	showAntCount();
@@ -171,19 +172,31 @@ function calculateAvgSpread() {
 	if (numGreAnts > numBluAnts) {
 		if (numGreAnts > numRedAnts) {
 			mostPrevAntCount = numGreAnts;
-		} else mostPrevAntCount = numRedAnts;
+			if (numBluAnts < numRedAnts) {
+				leastPrevAntCount = numBluAnts;
+			} else {
+				leastPrevAntCount = numRedAnts;
+			}
+		} else {
+			mostPrevAntCount = numRedAnts;
+			leastPrevAntCount = numBluAnts;
+		}
 	} else {
-		mostPrevAntCount = numBluAnts;
-	}
-
-	if (numGreAnts < numBluAnts) {
-		if (numGreAnts < numRedAnts) {
+		if (numBluAnts > numRedAnts) {
+			mostPrevAntCount = numBluAnts;
+			if (numGreAnts < numRedAnts) {
+				leastPrevAntCount = numGreAnts;
+			} else {
+				leastPrevAntCount = numRedAnts;
+			}
+		} else {
+			mostPrevAntCount = numRedAnts;
 			leastPrevAntCount = numGreAnts;
-		} else leastPrevAntCount = numRedAnts;
-	} else {
-		leastPrevAntCount = numBluAnts;
+		}
 	}
 
+	console.log(mostPrevAntCount);
+	console.log(leastPrevAntCount);
 	counter2 += (mostPrevAntCount - leastPrevAntCount);
 	avgDiff = counter2 / counter3;
 }
@@ -195,11 +208,18 @@ function showAntCount() {
 
 function colonyBalanced() {
 	let oneThirdOfAnts = Math.round(this.totalAnts / 3);
-	let allowance = 3;
-	if (numGreAnts < oneThirdOfAnts + allowance &&
-		numGreAnts > oneThirdOfAnts - allowance &&
-		numBluAnts < oneThirdOfAnts + allowance &&
-		numBluAnts > oneThirdOfAnts - allowance &&
+	let allowance;
+	if (allAnts > 119) {
+		allowance = allAnts * .05;
+	} else if (allAnts > 44) {
+		allowance = allAnts * .04;
+	} else {
+		allowance = 1;
+	}
+	if (numGreAnts <= oneThirdOfAnts + allowance &&
+		numGreAnts >= oneThirdOfAnts - allowance &&
+		numBluAnts <= oneThirdOfAnts + allowance &&
+		numBluAnts >= oneThirdOfAnts - allowance &&
 		oneThirdOfAnts > 0) {
 		return true;
 	} else {
