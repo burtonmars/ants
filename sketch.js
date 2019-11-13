@@ -20,9 +20,13 @@ let decisionTime = 10000;
 let clock;
 let counter1 = 0;
 let counter2 = 0;
+let counter3 = 0;
+let avgSpread = 0;
 let randomizeCheckbox;
 let setAlgorithm;
 let firstEqReached = false;
+let spreadIterations = 10;
+let avgDiff = 0;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -41,13 +45,13 @@ function setup() {
 
 	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 
-	clock1 = createP();
-	clock1.parent("eq1-timer");
-	clock1.html("First Equilibrium: 0");
+	clock = createP();
+	clock.parent("eq1-timer");
+	clock.html("Equilibrium: 0");
 
-	clock2 = createP();
-	clock2.parent("eq2-timer");
-	clock2.html("Second Equilibrium: 0");
+	avgSpread = createP();
+	avgSpread.parent("avg-spread");
+	avgSpread.html("Average Spread: 0");
 
 	let simulate = createButton("simulate");
 	simulate.parent('simul');
@@ -63,10 +67,10 @@ function populateColony() {
 
 	if (randomAlgorithm) {
 		console.log("no algorithm being used");
-		setAlgorithm = "none"; 
+		setAlgorithm = "none";
 	} else if (memoryAlgorithm) {
-			console.log("memoryAlgorithm being used");
-			setAlgorithm = "memory";
+		console.log("memoryAlgorithm being used");
+		setAlgorithm = "memory";
 	} else if (thresholdAlgorithm) {
 		console.log("threshold being used");
 		setAlgorithm = "threshold";
@@ -75,7 +79,7 @@ function populateColony() {
 		setAlgorithm = "basic";
 	}
 	buffer = document.getElementById("buffer-slider").value;
-	timer1 = setInterval(timeFirstSelfOrganization, 1000);
+	timer = setInterval(timeFirstSelfOrganization, 1000);
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -100,11 +104,11 @@ function setNumAntsFromInput() {
 }
 
 function timeFirstSelfOrganization() {
-	clock1.html("First Equilibrium: " + counter1++);
+	clock.html("Equilibrium: " + counter1++);
 }
 
-function timeSecondSelfOrganization() {
-	clock2.html("Second Equilibrium: " + counter2++);
+function averageEqulibriumCounter() {
+	avgSpread.html("Average Spread: " + Math.floor(avgDiff / 10) * 10);
 }
 
 function draw() {
@@ -130,12 +134,8 @@ function draw() {
 	this.totalAnts = numGreAnts + numRedAnts + numBluAnts;
 
 	if (this.colonyBalanced()) {
-		clearInterval(timer1);
-		if (firstEqReached) {
-			clearInterval(timer2)
-		} else {
-			this.startSecondTimer();
-		}
+		clearInterval(timer);
+		avgEq = setInterval(averageEqulibriumCounter, 10000);
 	}
 	showAntCount();
 }
@@ -160,6 +160,32 @@ function checkChangeJob() {
 				break;
 		}
 	}
+	counter3++;
+	calculateAvgSpread();
+}
+
+function calculateAvgSpread() {
+	let mostPrevAntCount;
+	let leastPrevAntCount;
+
+	if (numGreAnts > numBluAnts) {
+		if (numGreAnts > numRedAnts) {
+			mostPrevAntCount = numGreAnts;
+		} else mostPrevAntCount = numRedAnts;
+	} else {
+		mostPrevAntCount = numBluAnts;
+	}
+
+	if (numGreAnts < numBluAnts) {
+		if (numGreAnts < numRedAnts) {
+			leastPrevAntCount = numGreAnts;
+		} else leastPrevAntCount = numRedAnts;
+	} else {
+		leastPrevAntCount = numBluAnts;
+	}
+
+	counter2 += (mostPrevAntCount - leastPrevAntCount);
+	avgDiff = counter2 / counter3;
 }
 
 function showAntCount() {
@@ -167,14 +193,9 @@ function showAntCount() {
 		this.numRedAnts + " Builders:" + this.numBluAnts);
 }
 
-function startSecondTimer() {
-	firstEqReached = true;
-	timer2 = setInterval(timeSecondSelfOrganization, 1000);
-}
-
 function colonyBalanced() {
 	let oneThirdOfAnts = Math.round(this.totalAnts / 3);
-	let allowance = this.totalAnts * .3;
+	let allowance = 3;
 	if (numGreAnts < oneThirdOfAnts + allowance &&
 		numGreAnts > oneThirdOfAnts - allowance &&
 		numBluAnts < oneThirdOfAnts + allowance &&

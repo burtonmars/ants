@@ -7,7 +7,8 @@ class Ant {
         this.yspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);
         this.color = color;
         this.size = 12;
-        this.ferimoneBuffer = buff; // measured by the radius in pixels
+        this.ferimoneBuffer = buff;
+        this.fBuffInt = parseInt(this.ferimoneBuffer); 
         this.redAntCount = 0;
         this.blueAntCount = 0;
         this.greenAntCount = 0;
@@ -53,8 +54,7 @@ class Ant {
                 fill(color(255, 0, 0, 9));
                 break;
         }
-        let f = parseInt(this.ferimoneBuffer);
-        ellipse(this.x, this.y, f, f - f / 2);
+        ellipse(this.x, this.y, this.fBuffInt, this.fBuffInt - this.fBuffInt / 2);
     }
 
     // checks counts of ants seen by each ant and decides whether the ant should change jobs
@@ -69,6 +69,9 @@ class Ant {
         switch (alg) {
             case "basic":
                 console.log("Only checking ferimones detected at time of change");
+                // this.blueAntCount = 0;
+                // this.greenAntCount = 0;
+                // this.redAntCount = 0;
                 return this.basicDecisionAlgorithm(a);
             case "threshold":
                 console.log("Only change color when threshold reached");
@@ -87,11 +90,13 @@ class Ant {
     //   for that color
     countNearbyAnts(ants) {
         for (const a of ants) {
-            if (this.x + (this.size / 2) >= a.x - a.ferimoneBuffer / 2 && this.y >= a.y - a.ferimoneBuffer / 2 &&
-                this.x <= a.ferimoneBuffer / 2 && this.y <= a.y + a.ferimoneBuffer / 2) {
+            if (((this.x >= a.x - a.fBuffInt / 2) &&
+                (this.x <= a.x + a.fBuffInt / 2)) &&
+                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2 ) / 2) &&
+                (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
                 switch (a.color) {
                     case "b":
-                        this.blueAntCount += .1;
+                        this.blueAntCount += .1; 
                         break;
                     case "g":
                         this.greenAntCount += .1;
@@ -108,11 +113,26 @@ class Ant {
     // common
     basicDecisionAlgorithm(a) {
         let thisAnt = a;
-        this.blueAntCount = 0;
-        this.greenAntCount = 0;
-        this.redAntCount = 0;
+        for (const a of this.otherAnts) {
+            if (((this.x >= a.x - a.fBuffInt / 2) &&
+                (this.x <= a.x + a.fBuffInt / 2)) &&
+                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2 ) / 2) &&
+                (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
+                switch (a.color) {
+                    case "b":
+                        this.blueAntCount += .1;
+                        break;
+                    case "g":
+                        this.greenAntCount += .1;
+                        break;
+                    case "r":
+                        this.redAntCount += .1;
+                        break;
+                }
+            }
+        }
         console.log(this.otherAnts);
-        this.countNearbyAnts(this.otherAnts);
+        thisAnt.countNearbyAnts(this.otherAnts);
         console.log(thisAnt);
         return this.memoryDecisionAlgorithm(thisAnt);
     }
