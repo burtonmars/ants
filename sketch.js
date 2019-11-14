@@ -198,7 +198,7 @@ function calculateAvgSpread() {
 	console.log(avgDiff)
 	if (timerStopped) {
 		counter3++;
-		counter2 += (mostPrevAntCount - leastPrevAntCount);
+		counter2 += mostPrevAntCount - leastPrevAntCount;
 		avgDiff = counter2 / counter3;
 	}
 }
@@ -212,9 +212,9 @@ function colonyBalanced() {
 	let oneThirdOfAnts = Math.round(this.totalAnts / 3);
 	let allowance;
 	if (allAnts > 119) {
-		allowance = allAnts * .05;
+		allowance = Math.ceil(allAnts * .05);
 	} else if (allAnts > 44) {
-		allowance = allAnts * .04;
+		allowance = Math.ceil(allAnts * .04);
 	} else {
 		allowance = 1;
 	}
