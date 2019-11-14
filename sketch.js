@@ -3,6 +3,7 @@ const windowWidth = 700;
 const speed = 4;
 
 let greAnt, redAnt, bluAnt;
+let clock, antCount, randomizeCheckbox, setAlgorithm;
 
 let redAnts = [];
 let bluAnts = [];
@@ -15,16 +16,13 @@ let numRedAnts = 0;
 let numBluAnts = 0;
 
 let buffer = 50;
-let antCount;
 let decisionTime = 10000;
-let clock;
 let counter1 = 0;
 let counter2 = 0;
 let counter3 = 0;
 let avgSpread = 0;
-let randomizeCheckbox;
-let setAlgorithm;
 let firstEqReached = false;
+let timerStopped = false;
 let spreadIterations = 10;
 let avgDiff = 0;
 
@@ -68,12 +66,13 @@ function populateColony() {
 	if (randomAlgorithm) {
 		console.log("no algorithm being used");
 		setAlgorithm = "none";
-	} else if (memoryAlgorithm) {
-		console.log("memoryAlgorithm being used");
-		setAlgorithm = "memory";
 	} else if (thresholdAlgorithm) {
 		console.log("threshold being used");
 		setAlgorithm = "threshold";
+	} else if (memoryAlgorithm) {
+	
+		console.log("memoryAlgorithm being used");
+		setAlgorithm = "memory";
 	} else {
 		console.log("basic algorithm being used");
 		setAlgorithm = "basic";
@@ -108,7 +107,7 @@ function timeFirstSelfOrganization() {
 }
 
 function averageEqulibriumCounter() {
-	avgSpread.html("Average Spread: " + (Math.floor(avgDiff / 10) * 10));
+	avgSpread.html("Average Spread: " + Math.round(avgDiff));
 }
 
 function draw() {
@@ -135,7 +134,7 @@ function draw() {
 
 	if (this.colonyBalanced()) {
 		clearInterval(timer);
-		console.log(" TIMER STOPPED ");
+		timerStopped = true;
 		avgEq = setInterval(averageEqulibriumCounter, 10000);
 	}
 	showAntCount();
@@ -161,7 +160,6 @@ function checkChangeJob() {
 				break;
 		}
 	}
-	counter3++;
 	calculateAvgSpread();
 }
 
@@ -197,8 +195,12 @@ function calculateAvgSpread() {
 
 	console.log(mostPrevAntCount);
 	console.log(leastPrevAntCount);
-	counter2 += (mostPrevAntCount - leastPrevAntCount);
-	avgDiff = counter2 / counter3;
+	console.log(avgDiff)
+	if (timerStopped) {
+		counter3++;
+		counter2 += (mostPrevAntCount - leastPrevAntCount);
+		avgDiff = counter2 / counter3;
+	}
 }
 
 function showAntCount() {
