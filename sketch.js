@@ -23,6 +23,7 @@ let counter3 = 0;
 let avgSpread = 0;
 let firstEqReached = false;
 let timerStopped = false;
+let spreadCalculating = 10;
 let spreadIterations = 10;
 let avgDiff = 0;
 
@@ -135,6 +136,9 @@ function draw() {
 	if (this.colonyBalanced()) {
 		clearInterval(timer);
 		timerStopped = true;
+		if (spreadCalculating < 0) {
+			clearInterval(avgEq);
+		}
 		avgEq = setInterval(averageEqulibriumCounter, 10000);
 	}
 	showAntCount();
@@ -161,6 +165,7 @@ function checkChangeJob() {
 		}
 	}
 	calculateAvgSpread();
+	spreadCalculating--;
 }
 
 function calculateAvgSpread() {
@@ -192,14 +197,12 @@ function calculateAvgSpread() {
 			leastPrevAntCount = numGreAnts;
 		}
 	}
-
-	console.log(mostPrevAntCount);
-	console.log(leastPrevAntCount);
-	console.log(avgDiff)
 	if (timerStopped) {
+		spreadCalulating = true;
 		counter3++;
 		counter2 += mostPrevAntCount - leastPrevAntCount;
 		avgDiff = counter2 / counter3;
+		
 	}
 }
 
