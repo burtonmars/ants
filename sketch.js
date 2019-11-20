@@ -3,7 +3,8 @@ const windowWidth = 700;
 const speed = 4;
 
 let greAnt, redAnt, bluAnt;
-let clock, antCount, randomizeCheckbox, setAlgorithm;
+let clock, antCount, randomizeCheckbox, setAlgorithm, beetle,
+avgEq;
 
 let redAnts = [];
 let bluAnts = [];
@@ -26,10 +27,12 @@ let timerStopped = false;
 let spreadCalculating = 10;
 let spreadIterations = 10;
 let avgDiff = 0;
+let enemies = [];
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
 	myCanvas.parent('ant-farm');
+	myCanvas.mousePressed(addEnemy);
 	let input1 = createInput();
 	let input2 = createInput();
 	let input3 = createInput();
@@ -122,6 +125,12 @@ function draw() {
 		ant.countNearbyAnts(otherAnts);
 		otherAnts.push(ant);
 		ant.setOtherAnts(allAnts);
+	}
+	if (enemies.length > 0) {
+		for (const e of enemies) {
+			e.show();
+			e.update();
+		}
 	}
 	numGreAnts = greAnts.length;
 	numRedAnts = redAnts.length;
@@ -230,4 +239,9 @@ function colonyBalanced() {
 	} else {
 		return false;
 	}
+}
+
+function addEnemy() {
+	beetle = new Enemy();
+	enemies.push(beetle);
 }

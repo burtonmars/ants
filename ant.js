@@ -69,9 +69,6 @@ class Ant {
         switch (alg) {
             case "basic":
                 console.log("Only checking ferimones detected at time of change");
-                // this.blueAntCount = 0;
-                // this.greenAntCount = 0;
-                // this.redAntCount = 0;
                 return this.basicDecisionAlgorithm(a);
             case "threshold":
                 console.log("Only change color when threshold reached");

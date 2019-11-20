@@ -14,6 +14,8 @@
 	<script src="../libraries/p5.sound.js"></script>
 	<script src="sketch.js"></script>
 	<script src="ant.js"></script>
+	<script src="enemy.js"></script>
+	<img src="beetle_med.png" style="display:none"></img>
 
 	<style>
 		body {
@@ -49,10 +51,19 @@
 			font-size: 12px;
 			text-align: center;
 		}
-		#simul {
-			height: 20px;
+		.slider {
 			width: 100px;
+			height: 12px;
+			border-radius: 2px;
+			background: #a7a7a7;
+			outline: none;
+			opacity: .7;
 		}
+		.slider:hover {
+			opacity: 1;
+		}
+
+
 	</style>
 </head>
 
@@ -71,9 +82,11 @@
 		<div>
 			Builder Ants <span id="blue">(blue)</span>
 			<input class="ants-input" id="input3" autocomplete="off"></input>
-		</div><br>
+		</div class="slide-container"><br>
 			<label for="ferimone-strength">Ferimone Strength</label>
-			<input type="range" min="0" max="250" value="5" id="buffer-slider">
+			<input class="slider" type="range" min="0" max="250" value="5" id="buffer-slider">
+			<label for="political-bias">Political Bias</label>
+			<input class="slider" type="range" min="0" max="4" value="1" id="bias-slider">
 		<div style="margin-top:10px">
 			<input type="checkbox" id="randomize-checkbox" style="margin-left:20px">
 			<label for="randomize-checkbox">Randomize Decisions</label>
