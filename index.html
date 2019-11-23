@@ -32,16 +32,6 @@
 		h1 {
 			text-align: center;
 		}
-		#green {
-			color: #008000;
-
-		}
-		#red {
-			color: #FF0000;
-		}
-		#blue {
-			color: #0000FF;
-		}
 		input {
 			width: 50px;
 			height: 14px;
@@ -52,17 +42,34 @@
 			text-align: center;
 		}
 		.slider {
+			-webkit-appearance: none;  
+  			appearance: none;
 			width: 100px;
-			height: 12px;
+			height: 10px;
 			border-radius: 2px;
-			background: #a7a7a7;
+			background: #c7c7c7;
 			outline: none;
 			opacity: .7;
 		}
 		.slider:hover {
 			opacity: 1;
 		}
-
+		.slider::-webkit-slider-thumb {
+  			-webkit-appearance: none; 
+  			appearance: none;
+  			width: 15px; 
+  			height: 15px; 
+  			background: rgb(54, 54, 59); 
+  			cursor: pointer; 
+			border-radius: 20%;
+		}
+		.checkbox {
+			opacity: .7;
+		}
+		.checkbox:hover {
+			opacity: 1;
+			cursor: pointer;
+		}
 
 	</style>
 </head>
@@ -72,28 +79,30 @@
 	<p><strong>Enter a number of ants for each job</strong></p>
 	<div id="input-boxes-ant-numbers">
 		<div>
-			Gatherer Ants <span id="green">(green)</span>
+			Gatherer Ants <span style="color: #008000">(green)</span>
 			<input class="ants-input" id="input1" autocomplete="off"></input>
 		</div><br>
 		<div>
-			Soldier Ants <span id="red">(red)</span>
+			Soldier Ants <span style="color: #FF0000">(red)</span>
 			<input class="ants-input" id="input2" autocomplete="off"></input>
 		</div><br>
 		<div>
-			Builder Ants <span id="blue">(blue)</span>
+			Builder Ants <span style="color: #0000FF">(blue)</span>
 			<input class="ants-input" id="input3" autocomplete="off"></input>
 		</div class="slide-container"><br>
 			<label for="ferimone-strength">Ferimone Strength</label>
-			<input class="slider" type="range" min="0" max="250" value="5" id="buffer-slider">
+			<input class="slider" type="range" min="0" max="250" value="0" id="buffer-slider">
 			<label for="political-bias">Political Bias</label>
-			<input class="slider" type="range" min="0" max="4" value="1" id="bias-slider">
+			<input class="slider" type="range" min="0" max="4" value="0" id="bias-slider">
 		<div style="margin-top:10px">
-			<input type="checkbox" id="randomize-checkbox" style="margin-left:20px">
+			<input type="checkbox" class="checkbox" id="randomize-checkbox" style="margin-left:20px">
 			<label for="randomize-checkbox">Randomize Decisions</label>
-			<input type="checkbox" id="memory-checkbox" style="margin-left:20px">
+			<input type="checkbox" class="checkbox" id="memory-checkbox" style="margin-left:20px">
 			<label for="memory-checkbox">Add Memory</label>
-			<input type="checkbox" id="threshold-checkbox" style="margin-left:20px">
+			<input type="checkbox" class="checkbox" id="threshold-checkbox" style="margin-left:20px">
 			<label for="threshold-checkbox">Add Threshold</label>
+			<input type="checkbox" class="checkbox" id="bias-checkbox" style="margin-left:20px">
+			<label for="bias-checkbox">Add Bias</label>
 		</div>
 	</div> 
 		<br>

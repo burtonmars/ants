@@ -4,7 +4,7 @@ const speed = 4;
 
 let greAnt, redAnt, bluAnt;
 let clock, antCount, randomizeCheckbox, setAlgorithm, beetle,
-avgEq;
+avgEq, libCount, consCount, politicalBiasIncluded, politicalBiasLevel;
 
 let redAnts = [];
 let bluAnts = [];
@@ -66,23 +66,22 @@ function populateColony() {
 	randomAlgorithm = document.getElementById("randomize-checkbox").checked;
 	thresholdAlgorithm = document.getElementById("threshold-checkbox").checked;
 	memoryAlgorithm = document.getElementById("memory-checkbox").checked;
+	politicalBiasIncluded = document.getElementById("bias-checkbox").checked;
+	politicalBiasLevel = document.getElementById("bias-slider").value;
 
 	if (randomAlgorithm) {
-		console.log("no algorithm being used");
 		setAlgorithm = "none";
 	} else if (thresholdAlgorithm) {
-		console.log("threshold being used");
 		setAlgorithm = "threshold";
 	} else if (memoryAlgorithm) {
-	
-		console.log("memoryAlgorithm being used");
 		setAlgorithm = "memory";
 	} else {
-		console.log("basic algorithm being used");
 		setAlgorithm = "basic";
 	}
 	buffer = document.getElementById("buffer-slider").value;
 	timer = setInterval(timeFirstSelfOrganization, 1000);
+	bias = document.getElementById("bias-slider").value;
+	
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -97,6 +96,7 @@ function populateColony() {
 	}
 
 	allAnts = (greAnts.concat(redAnts)).concat(bluAnts);
+	addBiasToAnts();
 }
 
 function setNumAntsFromInput() {
@@ -116,15 +116,13 @@ function averageEqulibriumCounter() {
 
 function draw() {
 	background(51);
-	let otherAnts = allAnts.slice();
 	for (const ant of allAnts) {
-		otherAnts.splice(allAnts.indexOf(ant), 1);
+		ant.otherAnts = allAnts.slice();
+		ant.otherAnts.splice(allAnts.indexOf(ant), 1);
 		ant.showBuffer();
 		ant.show();
 		ant.update();
-		ant.countNearbyAnts(otherAnts);
-		otherAnts.push(ant);
-		ant.setOtherAnts(allAnts);
+		ant.countNearbyAnts(ant.otherAnts);
 	}
 	if (enemies.length > 0) {
 		for (const e of enemies) {
@@ -221,14 +219,14 @@ function showAntCount() {
 }
 
 function colonyBalanced() {
-	let oneThirdOfAnts = Math.round(this.totalAnts / 3);
+	let oneThirdOfAnts = Math.floor(this.totalAnts / 3);
 	let allowance;
-	if (allAnts > 119) {
-		allowance = Math.ceil(allAnts * .05);
-	} else if (allAnts > 44) {
-		allowance = Math.ceil(allAnts * .04);
+	if (this.totalAnts > 150) {
+		allowance = Math.round(this.totalAnts * .02);
+		console.log("allowance: " + allowance);
 	} else {
-		allowance = 1;
+		allowance = Math.ceil(this.totalAnts * .01);
+		console.log("allowance: " + allowance);
 	}
 	if (numGreAnts <= oneThirdOfAnts + allowance &&
 		numGreAnts >= oneThirdOfAnts - allowance &&
@@ -244,4 +242,40 @@ function colonyBalanced() {
 function addEnemy() {
 	beetle = new Enemy();
 	enemies.push(beetle);
+}
+
+function addBiasToAnts() {
+	if (politicalBiasLevel == 0) {
+		for (const ant of allAnts) {
+			ant.pBias = "lib";
+		}
+	} else if (politicalBiasLevel == 1) {
+		for (const ant of allAnts) {
+			if (allAnts.indexOf(ant) % 4 === 0) {
+				ant.pBias = "lib";
+			} else {
+				ant.pBias = "cons";
+			}
+		}
+	} else if (politicalBiasLevel == 2) {
+		for (const ant of allAnts) {
+			if (allAnts.indexOf(ant) % 2 === 0) {
+				ant.pBias = "lib";
+			} else {
+				ant.pBias = "cons";
+			}
+		}
+	} else if (politicalBiasLevel == 3) {
+		for (const ant of allAnts) {
+			if (allAnts.indexOf(ant) % 4 !== 0) {
+				ant.pBias = "lib";
+			} else {
+				ant.pBias = "cons";
+			}
+		}
+	} else {
+		for (const ant of allAnts) {
+			ant.pBias = "cons";
+		}
+	}
 }

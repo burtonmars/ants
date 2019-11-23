@@ -13,6 +13,7 @@ class Ant {
         this.blueAntCount = 0;
         this.greenAntCount = 0;
         this.otherAnts = [];
+        this.pBias = "";
     }
 
     update() {
@@ -71,7 +72,11 @@ class Ant {
                 console.log("Only checking ferimones detected at time of change");
                 return this.basicDecisionAlgorithm(a);
             case "threshold":
-                console.log("Only change color when threshold reached");
+                if (politicalBiasIncluded) {
+                    console.log("change color on threshold based on political bias")
+                } else {
+                    console.log("Only change if threshold passed - no politcal bias");
+                }
                 return this.thresholdAlgorithm(a);
             case "none":
                 console.log("Random selection of color");
@@ -85,8 +90,8 @@ class Ant {
     // checks list of other ants to see if it overlaps any of their buffers
     // - if it does, check color of other ant and add some ammount to this.*antcount 
     //   for that color
-    countNearbyAnts(ants) {
-        for (const a of ants) {
+    countNearbyAnts() {
+        for (const a of this.otherAnts) {
             if (((this.x >= a.x - a.fBuffInt / 2) &&
                 (this.x <= a.x + a.fBuffInt / 2)) &&
                 ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2 ) / 2) &&
@@ -152,7 +157,14 @@ class Ant {
     // seen by that ant AND the other colors seen are less by a certain margin
     thresholdAlgorithm(a) {
         let totalAntsSeen = this.redAntCount + this.greenAntCount + this.blueAntCount;
-        let threshold = totalAntsSeen * .03;
+        let threshold = totalAntsSeen * .02;
+        if (politicalBiasIncluded) {
+            if (this.pBias === "lib") {
+                threshold = 0;
+            } else {
+                threshold = totalAntsSeen * .04
+            }
+        }
         let c = this.color;
         switch (c) {
             case "b":
@@ -224,9 +236,5 @@ class Ant {
             case 3:
                 return "r";
         }
-    }
-
-    setOtherAnts(ants) {
-        this.otherAnts = ants;
     }
 }
