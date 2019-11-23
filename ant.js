@@ -162,7 +162,7 @@ class Ant {
             if (this.pBias === "lib") {
                 threshold = 0;
             } else {
-                threshold = totalAntsSeen * .04
+                threshold = totalAntsSeen * .05
             }
         }
         let c = this.color;

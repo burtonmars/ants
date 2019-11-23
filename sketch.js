@@ -22,10 +22,9 @@ let counter1 = 0;
 let counter2 = 0;
 let counter3 = 0;
 let avgSpread = 0;
+let spreadIterations = 0;
 let firstEqReached = false;
 let timerStopped = false;
-let spreadCalculating = 10;
-let spreadIterations = 10;
 let avgDiff = 0;
 let enemies = [];
 
@@ -110,10 +109,6 @@ function timeFirstSelfOrganization() {
 	clock.html("Equilibrium: " + counter1++);
 }
 
-function averageEqulibriumCounter() {
-	avgSpread.html("Average Spread: " + Math.round(avgDiff));
-}
-
 function draw() {
 	background(51);
 	for (const ant of allAnts) {
@@ -143,10 +138,6 @@ function draw() {
 	if (this.colonyBalanced()) {
 		clearInterval(timer);
 		timerStopped = true;
-		if (spreadCalculating < 0) {
-			clearInterval(avgEq);
-		}
-		avgEq = setInterval(averageEqulibriumCounter, 10000);
 	}
 	showAntCount();
 }
@@ -172,7 +163,6 @@ function checkChangeJob() {
 		}
 	}
 	calculateAvgSpread();
-	spreadCalculating--;
 }
 
 function calculateAvgSpread() {
@@ -205,12 +195,17 @@ function calculateAvgSpread() {
 		}
 	}
 	if (timerStopped) {
-		spreadCalulating = true;
 		counter3++;
 		counter2 += mostPrevAntCount - leastPrevAntCount;
 		avgDiff = counter2 / counter3;
+		if (spreadIterations < 11) {
+			spreadIterations++;
+			avgSpread.html("Average Spread: " + Math.round(avgDiff));
+		}
 		
 	}
+	console.log(spreadIterations);
+	
 }
 
 function showAntCount() {
