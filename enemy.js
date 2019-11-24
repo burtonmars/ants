@@ -3,9 +3,9 @@ class Enemy {
     constructor(ants) {
         this.x = floor(random(30, windowWidth - 60));
         this.y = floor(random(30, windowHeight - 60));
-        this.img = loadImage("beetle_med.png");
+        this.img = loadImage("bee.png");
         this.ants = ants;
-        this.buffer = 90;
+        this.buffer = 80;
         this.antsSeen = [];
         this.attackers = [];
         this.alerted = [];
@@ -18,7 +18,7 @@ class Enemy {
 
     showBuffer() {
         fill(color(0, 205, 100, 8));
-        ellipse(this.x + this.img.width / 2, this.y + this.img.height / 2, this.buffer, this.buffer);
+        //ellipse(this.x + this.img.width / 2, this.y + this.img.height / 2, this.buffer, this.buffer);
     }
 
     update() {
@@ -42,7 +42,7 @@ class Enemy {
                 }
             }
         }
-        if (this.attackers.length > this.ants.length * .25) {
+        if (this.attackers.length > this.ants.length * .12) {
             enemies.splice(enemies.indexOf(this), 1);
         };
     }
