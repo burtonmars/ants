@@ -4,7 +4,8 @@ const speed = 4;
 
 let greAnt, redAnt, bluAnt;
 let clock, antCount, randomizeCheckbox, setAlgorithm, beetle,
-avgEq, libCount, consCount, politicalBiasIncluded, politicalBiasLevel;
+	avgEq, libCount, consCount, politicalBiasIncluded, politicalBiasLevel,
+	deathCounter;
 
 let redAnts = [];
 let bluAnts = [];
@@ -27,6 +28,7 @@ let firstEqReached = false;
 let timerStopped = false;
 let avgDiff = 0;
 let enemies = [];
+let deathCount = 0;
 
 function setup() {
 	let myCanvas = createCanvas(windowWidth, windowHeight);
@@ -47,17 +49,22 @@ function setup() {
 	let intervalIndividualCount = setInterval(checkChangeJob, decisionTime);
 
 	clock = createP();
-	clock.parent("eq1-timer");
+	clock.parent("eq-timer");
 	clock.html("Equilibrium: 0");
 
 	avgSpread = createP();
 	avgSpread.parent("avg-spread");
 	avgSpread.html("Average Spread: 0");
 
+	deathCounter = createP();
+	deathCounter.parent("death-count");
+	deathCounter.html("Deaths: 0");
+
 	let simulate = createButton("simulate");
-	simulate.parent('simul');
+	simulate.parent('simul-button');
 	simulate.mousePressed(setNumAntsFromInput);
 	simulate.mouseReleased(populateColony);
+
 }
 
 function populateColony() {
@@ -80,7 +87,7 @@ function populateColony() {
 	buffer = document.getElementById("buffer-slider").value;
 	timer = setInterval(timeFirstSelfOrganization, 1000);
 	bias = document.getElementById("bias-slider").value;
-	
+
 	for (let i = 0; i < this.numGreAnts; i++) {
 		greAnt = new Ant("g", buffer);
 		greAnts.push(greAnt);
@@ -123,6 +130,7 @@ function draw() {
 		for (const e of enemies) {
 			e.show();
 			e.update();
+			e.showBuffer();
 		}
 	}
 	numGreAnts = greAnts.length;
@@ -140,11 +148,14 @@ function draw() {
 		timerStopped = true;
 	}
 	showAntCount();
+	showDeathCount();
 }
 
 function checkChangeJob() {
 	for (const a of allAnts) {
-		a.color = a.weightDataCollected(a, setAlgorithm);
+		if (!a.attacking) {
+			a.color = a.weightDataCollected(a, setAlgorithm);
+		}
 	}
 	greAnts = [];
 	redAnts = [];
@@ -202,10 +213,9 @@ function calculateAvgSpread() {
 			spreadIterations++;
 			avgSpread.html("Average Spread: " + Math.round(avgDiff));
 		}
-		
+
 	}
-	console.log(spreadIterations);
-	
+
 }
 
 function showAntCount() {
@@ -213,15 +223,17 @@ function showAntCount() {
 		this.numRedAnts + " Builders:" + this.numBluAnts);
 }
 
+function showDeathCount() {
+	deathCounter.html("Deaths: " + deathCount);
+}
+
 function colonyBalanced() {
 	let oneThirdOfAnts = Math.floor(this.totalAnts / 3);
 	let allowance;
 	if (this.totalAnts > 150) {
 		allowance = Math.round(this.totalAnts * .02);
-		console.log("allowance: " + allowance);
 	} else {
 		allowance = Math.ceil(this.totalAnts * .01);
-		console.log("allowance: " + allowance);
 	}
 	if (numGreAnts <= oneThirdOfAnts + allowance &&
 		numGreAnts >= oneThirdOfAnts - allowance &&
@@ -235,7 +247,7 @@ function colonyBalanced() {
 }
 
 function addEnemy() {
-	beetle = new Enemy();
+	beetle = new Enemy(allAnts);
 	enemies.push(beetle);
 }
 

@@ -8,23 +8,33 @@ class Ant {
         this.color = color;
         this.size = 12;
         this.ferimoneBuffer = buff;
-        this.fBuffInt = parseInt(this.ferimoneBuffer); 
+        this.fBuffInt = parseInt(this.ferimoneBuffer);
         this.redAntCount = 0;
         this.blueAntCount = 0;
         this.greenAntCount = 0;
         this.otherAnts = [];
         this.pBias = "";
+        this.currentEnemy;
+        this.attacking = false;
     }
 
     update() {
-        if (this.x >= (width - this.size / 2) || this.x <= this.size / 2) {
-            this.xspeed = -this.xspeed;
+        if (this.attacking) {
+            this.x += random(-1, 1);
+            this.y += random(-1, 1);
+        } else {
+            if (this.x >= (width - this.size / 2) || this.x <= this.size / 2) {
+                this.xspeed = -this.xspeed;
+            }
+            if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
+                this.yspeed = -this.yspeed;
+            }
+            this.x += this.xspeed + random(-1, 1);
+            this.y += this.yspeed + random(-1, 1);
         }
-        if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
-            this.yspeed = -this.yspeed;
+        if (!enemies.includes(this.currentEnemy)) {
+            this.attacking = false;
         }
-        this.x += this.xspeed + random(-1, 1);
-        this.y += this.yspeed + random(-1, 1);
     }
 
     show() {
@@ -58,11 +68,46 @@ class Ant {
         ellipse(this.x, this.y, this.fBuffInt, this.fBuffInt - this.fBuffInt / 2);
     }
 
-    // checks counts of ants seen by each ant and decides whether the ant should change jobs
-    // or remain the same color
-    checkChangeJob(ants) {
-        for (const a of ants) {
-            a.color = weighDataCollected(a);
+    alert(enemy) {
+        if (this.chooseWhetherToAttack()) {
+            this.currentEnemy = enemy;
+            this.attacking = true;
+            this.color = "r";
+            if (this.decideIfDie()) {
+                allAnts.splice(allAnts.indexOf(this), 1);
+                deathCount++;
+            }
+            return true;
+        } else {
+            if (this.decideIfDie()) {
+                allAnts.splice(allAnts.indexOf(this), 1);
+                deathCount++;
+            }
+            return false;
+        }
+    }
+
+    chooseWhetherToAttack() {
+        if (politicalBiasIncluded) {
+            if (this.pBias === "lib") {
+                return true;
+            } else {
+                let flipCoin = floor(random() * 2 + 1);
+                if (flipCoin == 2) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else return true;
+    }
+
+    decideIfDie() {
+        let flipCoin = floor(random() * 11 + 1);
+        if (flipCoin < 3) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -93,12 +138,12 @@ class Ant {
     countNearbyAnts() {
         for (const a of this.otherAnts) {
             if (((this.x >= a.x - a.fBuffInt / 2) &&
-                (this.x <= a.x + a.fBuffInt / 2)) &&
-                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2 ) / 2) &&
-                (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
+                    (this.x <= a.x + a.fBuffInt / 2)) &&
+                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2) / 2) &&
+                    (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
                 switch (a.color) {
                     case "b":
-                        this.blueAntCount += .1; 
+                        this.blueAntCount += .1;
                         break;
                     case "g":
                         this.greenAntCount += .1;
@@ -117,9 +162,9 @@ class Ant {
         let thisAnt = a;
         for (const a of this.otherAnts) {
             if (((this.x >= a.x - a.fBuffInt / 2) &&
-                (this.x <= a.x + a.fBuffInt / 2)) &&
-                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2 ) / 2) &&
-                (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
+                    (this.x <= a.x + a.fBuffInt / 2)) &&
+                ((this.y >= a.y - (a.fBuffInt - a.fBuffInt / 2) / 2) &&
+                    (this.y <= a.y + (a.fBuffInt - a.fBuffInt / 2) / 2))) {
                 switch (a.color) {
                     case "b":
                         this.blueAntCount += .1;
@@ -186,9 +231,9 @@ class Ant {
             if (this.blueAntCount - this.redAntCount > threshold ||
                 this.blueAntCount - this.greenAntCount > threshold) {
                 return this.redAntCount < this.greenAntCount ? "r" : "g";
-                } else {
-                    return "b";
-                }
+            } else {
+                return "b";
+            }
         }
     }
 
@@ -202,9 +247,9 @@ class Ant {
             if (this.redAntCount - this.blueAntCount > threshold ||
                 this.redAntCount - this.greenAntCount > threshold) {
                 return this.blueAntCount < this.greenAntCount ? "b" : "g";
-                } else {
-                    return "r";
-                }
+            } else {
+                return "r";
+            }
         }
     }
 
@@ -218,9 +263,9 @@ class Ant {
             if (this.greenAntCount - this.redAntCount > threshold ||
                 this.greenAntCount - this.blueAntCount > threshold) {
                 return this.redAntCount < this.blueAntCount ? "r" : "b";
-                } else {
-                    return "g";
-                }
+            } else {
+                return "g";
+            }
         }
     }
 

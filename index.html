@@ -32,18 +32,21 @@
 		h1 {
 			text-align: center;
 		}
+
 		input {
 			width: 50px;
 			height: 14px;
 			position: relative;
 		}
+
 		#input-boxes-ant-numbers {
 			font-size: 12px;
 			text-align: center;
 		}
+
 		.slider {
-			-webkit-appearance: none;  
-  			appearance: none;
+			-webkit-appearance: none;
+			appearance: none;
 			width: 100px;
 			height: 10px;
 			border-radius: 2px;
@@ -51,26 +54,44 @@
 			outline: none;
 			opacity: .7;
 		}
+
 		.slider:hover {
 			opacity: 1;
 		}
+
 		.slider::-webkit-slider-thumb {
-  			-webkit-appearance: none; 
-  			appearance: none;
-  			width: 15px; 
-  			height: 15px; 
-  			background: rgb(54, 54, 59); 
-  			cursor: pointer; 
+			-webkit-appearance: none;
+			appearance: none;
+			width: 15px;
+			height: 15px;
+			background: rgb(54, 54, 59);
+			cursor: pointer;
 			border-radius: 20%;
 		}
+
 		.checkbox {
 			opacity: .7;
 		}
+
 		.checkbox:hover {
 			opacity: 1;
 			cursor: pointer;
 		}
+		#eq-timer {
+			float: left;
+		}
 
+		#avg-spread {
+			float: right;
+		}
+
+		#timer-and-spread {
+			display: grid;
+			grid-template-columns: repeat(3, 33%);  
+    		grid-template-rows: 50px 50px;
+			width: 60%;
+			margin: auto;
+		}
 	</style>
 </head>
 
@@ -90,10 +111,10 @@
 			Builder Ants <span style="color: #0000FF">(blue)</span>
 			<input class="ants-input" id="input3" autocomplete="off"></input>
 		</div class="slide-container"><br>
-			<label for="ferimone-strength">Ferimone Strength</label>
-			<input class="slider" type="range" min="0" max="250" value="0" id="buffer-slider">
-			<label for="political-bias">Political Bias</label>
-			<input class="slider" type="range" min="0" max="4" value="0" id="bias-slider">
+		<label for="ferimone-strength">Ferimone Strength</label>
+		<input class="slider" type="range" min="0" max="250" value="0" id="buffer-slider">
+		<label for="political-bias">Political Bias</label>
+		<input class="slider" type="range" min="0" max="4" value="0" id="bias-slider">
 		<div style="margin-top:10px">
 			<input type="checkbox" class="checkbox" id="randomize-checkbox" style="margin-left:20px">
 			<label for="randomize-checkbox">Randomize Decisions</label>
@@ -104,15 +125,19 @@
 			<input type="checkbox" class="checkbox" id="bias-checkbox" style="margin-left:20px">
 			<label for="bias-checkbox">Add Bias</label>
 		</div>
-	</div> 
-		<br>
-		<a id="simul"></a>
+	</div>
+	<br>
+	<a id="simul-button"></a>
 	</div><br>
 	<div id="ant-farm"></div>
 	<br>
+	<a id="enemy-button"></a>
 	<p id="color-count"></p>
-	<p id="eq1-timer"></p>
-	<p id="avg-spread"></p>
+	<div id="timer-and-spread">
+		<a id="eq-timer"></a>
+		<a id="avg-spread"></a>
+		<a id="death-count"></a>
+	</div>
 </body>
 
 </html>
