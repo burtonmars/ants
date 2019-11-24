@@ -5,7 +5,7 @@ class Enemy {
         this.y = floor(random(30, windowHeight - 60));
         this.img = loadImage("bee.png");
         this.ants = ants;
-        this.buffer = 80;
+        this.buffer = 70;
         this.antsSeen = [];
         this.attackers = [];
         this.alerted = [];
@@ -22,8 +22,8 @@ class Enemy {
     }
 
     update() {
-        this.x += random(-1, 1);
-        this.y += random(-1, 1);
+        this.x += random(-1.5, 1.5);
+        this.y += random(-1.5, 1.5);
         for (const ant of this.ants) {
             if (((ant.x >= this.x + this.img.width / 2 - (this.buffer / 2)) &&
                     (ant.x <= this.x + this.img.width / 2 + (this.buffer / 2))) &&

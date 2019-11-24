@@ -6,9 +6,9 @@ class Ant {
         this.xspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);
         this.yspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);
         this.color = color;
-        this.size = 12;
-        this.ferimoneBuffer = buff;
-        this.fBuffInt = parseInt(this.ferimoneBuffer);
+        this.size = 8;
+        this.pheromoneBuffer = buff;
+        this.fBuffInt = parseInt(this.pheromoneBuffer);
         this.redAntCount = 0;
         this.blueAntCount = 0;
         this.greenAntCount = 0;
@@ -19,16 +19,16 @@ class Ant {
     }
 
     update() {
+        if (this.x >= (width - this.size / 2) || this.x <= this.size / 2) {
+            this.xspeed = -this.xspeed;
+        }
+        if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
+            this.yspeed = -this.yspeed;
+        }
         if (this.attacking) {
             this.x += random(-1, 1);
             this.y += random(-1, 1);
         } else {
-            if (this.x >= (width - this.size / 2) || this.x <= this.size / 2) {
-                this.xspeed = -this.xspeed;
-            }
-            if (this.y >= (height - this.size / 2) || this.y <= this.size / 2) {
-                this.yspeed = -this.yspeed;
-            }
             this.x += this.xspeed + random(-1, 1);
             this.y += this.yspeed + random(-1, 1);
         }
@@ -40,13 +40,13 @@ class Ant {
     show() {
         switch (this.color) {
             case "g":
-                fill(color(0, 255, 0));
+                fill(color(0, 170, 0));
                 break;
             case "b":
-                fill(color(0, 0, 255));
+                fill(color(0, 0, 220));
                 break;
             case "r":
-                fill(color(255, 0, 0));
+                fill(color(170, 0, 0));
                 break;
         }
         ellipse(this.x, this.y, this.size, this.size - this.size / 1.8);
@@ -56,13 +56,13 @@ class Ant {
         noStroke();
         switch (this.color) {
             case "g":
-                fill(color(0, 255, 0, 8));
+                fill(color(0, 255, 0, 5));
                 break;
             case "b":
-                fill(color(0, 0, 255, 18));
+                fill(color(0, 0, 255, 8));
                 break;
             case "r":
-                fill(color(255, 0, 0, 9));
+                fill(color(255, 0, 0, 5));
                 break;
         }
         ellipse(this.x, this.y, this.fBuffInt, this.fBuffInt - this.fBuffInt / 2);
@@ -114,7 +114,7 @@ class Ant {
     weightDataCollected(a, alg) {
         switch (alg) {
             case "basic":
-                console.log("Only checking ferimones detected at time of change");
+                console.log("Only checking pheromones detected at time of change");
                 return this.basicDecisionAlgorithm(a);
             case "threshold":
                 if (politicalBiasIncluded) {
@@ -156,7 +156,7 @@ class Ant {
         }
     }
 
-    // checks what ferimones are currently being detected and changes to the one that is least
+    // checks what pheromones are currently being detected and changes to the one that is least
     // common
     basicDecisionAlgorithm(a) {
         let thisAnt = a;
