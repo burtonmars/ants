@@ -16,6 +16,18 @@ class Ant {
         this.pBias = "";
         this.currentEnemy;
         this.attacking = false;
+        this.ranImg = floor(random() * 3 + 1);
+        this.img;
+        this.gImg1 = loadImage("images/green_ant1.png");
+        this.bImg1 = loadImage("images/blue_ant1.png");
+        this.rImg1 = loadImage("images/red_ant1.png");
+        this.gImg2 = loadImage("images/green_ant2.png");
+        this.bImg2 = loadImage("images/blue_ant2.png");
+        this.rImg2 = loadImage("images/red_ant2.png");
+        this.gImg3 = loadImage("images/green_ant3.png");
+        this.bImg3 = loadImage("images/blue_ant3.png");
+        this.rImg3 = loadImage("images/red_ant3.png");
+    
     }
 
     update() {
@@ -40,16 +52,18 @@ class Ant {
     show() {
         switch (this.color) {
             case "g":
-                fill(color(0, 170, 0));
+                this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
+                image(this.img, this.x, this.y);
                 break;
             case "b":
-                fill(color(0, 0, 220));
+                    this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
+                image(this.img, this.x, this.y);
                 break;
             case "r":
-                fill(color(170, 0, 0));
+                    this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
+                image(this.img, this.x, this.y);
                 break;
         }
-        ellipse(this.x, this.y, this.size, this.size - this.size / 1.8);
     }
 
     showBuffer() {
@@ -92,11 +106,15 @@ class Ant {
             if (this.pBias === "lib") {
                 return true;
             } else {
-                let flipCoin = floor(random() * 2 + 1);
-                if (flipCoin == 2) {
+                if (this.c === "r") {
                     return true;
                 } else {
-                    return false;
+                    let flipCoin = floor(random() * 2 + 1);
+                    if (flipCoin == 2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             }
         } else return true;

@@ -3,7 +3,7 @@ class Enemy {
     constructor(ants) {
         this.x = floor(random(30, windowWidth - 60));
         this.y = floor(random(30, windowHeight - 60));
-        this.img = loadImage("bee.png");
+        this.img = loadImage("images/bee.png");
         this.ants = ants;
         this.buffer = 70;
         this.antsSeen = [];
