@@ -20,20 +20,20 @@ class Ant {
         this.img;
 
         // gif images
-        this.gImg = loadImage("images/green_ant_gif.png");
-        this.bImg = loadImage("images/blue_ant_gif.png");
-        this.rImg = loadImage("images/red_ant_gif.png");
+        // this.gImg = loadImage("images/green_ant_gif.png");
+        // this.bImg = loadImage("images/blue_ant_gif.png");
+        // this.rImg = loadImage("images/red_ant_gif.png");
 
         // ant images
-        // this.gImg1 = loadImage("images/green_ant1.png");
-        // this.bImg1 = loadImage("images/blue_ant1.png");
-        // this.rImg1 = loadImage("images/red_ant1.png");
-        // this.gImg2 = loadImage("images/green_ant2.png");
-        // this.bImg2 = loadImage("images/blue_ant2.png");
-        // this.rImg2 = loadImage("images/red_ant2.png");
-        // this.gImg3 = loadImage("images/green_ant3.png");
-        // this.bImg3 = loadImage("images/blue_ant3.png");
-        // this.rImg3 = loadImage("images/red_ant3.png");
+        this.gImg1 = loadImage("images/green_ant1.png");
+        this.bImg1 = loadImage("images/blue_ant1.png");
+        this.rImg1 = loadImage("images/red_ant1.png");
+        this.gImg2 = loadImage("images/green_ant2.png");
+        this.bImg2 = loadImage("images/blue_ant2.png");
+        this.rImg2 = loadImage("images/red_ant2.png");
+        this.gImg3 = loadImage("images/green_ant3.png");
+        this.bImg3 = loadImage("images/blue_ant3.png");
+        this.rImg3 = loadImage("images/red_ant3.png");
     }
 
     update() {
@@ -58,18 +58,18 @@ class Ant {
     show() {
         switch (this.color) {
             case "g": 
-                // this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
-                this.img = this.gImg;
+                this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
+                // this.img = this.gImg;
                 image(this.img, this.x, this.y);
                 break;
             case "b":
-                // this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
-                this.img = this.bImg;
+                this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
+                // this.img = this.bImg;
                 image(this.img, this.x, this.y);
                 break;
             case "r":
-                // this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
-                this.img = this.rImg;
+                this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
+                // this.img = this.rImg;
                 image(this.img, this.x, this.y);
                 break;
         }
@@ -88,7 +88,7 @@ class Ant {
                 fill(color(255, 0, 0, 5));
                 break;
         }
-        ellipse(this.x, this.y, this.fBuffInt, this.fBuffInt - this.fBuffInt / 2);
+        ellipse(this.x + 6, this.y + 6, this.fBuffInt, this.fBuffInt - this.fBuffInt / 2);
     }
 
     alert(enemy) {
