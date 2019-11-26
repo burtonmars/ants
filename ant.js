@@ -18,6 +18,7 @@ class Ant {
         this.attacking = false;
         this.ranImg = floor(random() * 3 + 1);
         this.img;
+        this.dir;
 
         // gif images
         // this.gImg = loadImage("images/green_ant_gif.png");
@@ -34,6 +35,12 @@ class Ant {
         this.gImg3 = loadImage("images/green_ant3.png");
         this.bImg3 = loadImage("images/blue_ant3.png");
         this.rImg3 = loadImage("images/red_ant3.png");
+        this.gImgNE = loadImage("images/green_ant_NE.png");
+        this.rImgNE = loadImage("images/red_ant_NE.png");
+        this.bImgNE = loadImage("images/blue_ant_NE.png");
+        this.gImgSE = loadImage("images/green_ant_SE.png");
+        this.rImgSE = loadImage("images/red_ant_SE.png");
+        this.bImgSE = loadImage("images/blue_ant_SE.png");
     }
 
     update() {
@@ -53,23 +60,46 @@ class Ant {
         if (!enemies.includes(this.currentEnemy)) {
             this.attacking = false;
         }
+        if (this.ranImg === 3) {
+            this.dir = 5;
+        } else {
+            if (this.xspeed > 0) {
+                if (this.yspeed > 0) {
+                    this.dir = 3;
+                } else {
+                    this.dir = 4;
+                }
+            } else if (this.xspeed < 0) {
+                if (this.yspeed >= 1) {
+                    this.dir = 2;
+                } else {
+                    this.dir = 1;
+                }
+            }
+        }
     }
 
     show() {
         switch (this.color) {
             case "g": 
-                this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
+                // this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
                 // this.img = this.gImg;
+                this.img = (this.dir === 1) ? this.gImg1 : (this.dir === 2) ? this.gImg2 : (this.dir === 3) ?
+                this.gImgSE : (this.dir === 4) ? this.gImgNE : this.gImg3;
                 image(this.img, this.x, this.y);
                 break;
             case "b":
-                this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
+                // this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
                 // this.img = this.bImg;
+                this.img = (this.dir === 1) ? this.bImg1 : (this.dir === 2) ? this.bImg2 : (this.dir === 3) ?
+                this.bImgSE : (this.dir === 4) ? this.bImgNE : this.bImg3;
                 image(this.img, this.x, this.y);
                 break;
             case "r":
-                this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
+                // this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
                 // this.img = this.rImg;
+                this.img = (this.dir === 1) ? this.rImg1 : (this.dir === 2) ? this.rImg2 : (this.dir === 3) ?
+                this.rImgSE : (this.dir === 4) ? this.rImgNE : this.rImg3;
                 image(this.img, this.x, this.y);
                 break;
         }

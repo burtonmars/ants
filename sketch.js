@@ -18,7 +18,7 @@ let numRedAnts = 0;
 let numBluAnts = 0;
 
 let buffer = 50;
-let decisionTime = 10000;
+let decisionTime = 7000;
 let counter1 = 0;
 let counter2 = 0;
 let counter3 = 0;
