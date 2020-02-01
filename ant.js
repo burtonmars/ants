@@ -82,22 +82,16 @@ class Ant {
     show() {
         switch (this.color) {
             case "g": 
-                // this.img = (this.ranImg === 1) ? this.gImg1 : (this.ranImg === 2) ? this.gImg2 : this.gImg3;
-                // this.img = this.gImg;
                 this.img = (this.dir === 1) ? this.gImg1 : (this.dir === 2) ? this.gImg2 : (this.dir === 3) ?
                 this.gImgSE : (this.dir === 4) ? this.gImgNE : this.gImg3;
                 image(this.img, this.x, this.y);
                 break;
             case "b":
-                // this.img = (this.ranImg === 1) ? this.bImg1 : (this.ranImg === 2) ? this.bImg2 : this.bImg3;
-                // this.img = this.bImg;
                 this.img = (this.dir === 1) ? this.bImg1 : (this.dir === 2) ? this.bImg2 : (this.dir === 3) ?
                 this.bImgSE : (this.dir === 4) ? this.bImgNE : this.bImg3;
                 image(this.img, this.x, this.y);
                 break;
             case "r":
-                // this.img = (this.ranImg === 1) ? this.rImg1 : (this.ranImg === 2) ? this.rImg2 : this.rImg3;
-                // this.img = this.rImg;
                 this.img = (this.dir === 1) ? this.rImg1 : (this.dir === 2) ? this.rImg2 : (this.dir === 3) ?
                 this.rImgSE : (this.dir === 4) ? this.rImgNE : this.rImg3;
                 image(this.img, this.x, this.y);
@@ -267,8 +261,7 @@ class Ant {
                 threshold = totalAntsSeen * .05
             }
         }
-        let c = this.color;
-        switch (c) {
+        switch (this.color) {
             case "b":
                 return this.thresholdBlueChangeCheck(threshold);
             case "r":
