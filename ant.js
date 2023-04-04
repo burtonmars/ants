@@ -1,6 +1,7 @@
 class Ant {
 
     constructor(color, buff) {
+
         this.x = floor(random(windowWidth));
         this.y = floor(random(windowHeight));
         this.xspeed = Math.random() * (Math.round(Math.random()) * 2 - 1);

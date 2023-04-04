@@ -6,6 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="shortcut icon" href="#">
+	<link rel="stylesheet" href="global.css">
 
 	<title>ants</title>
 
@@ -18,86 +19,40 @@
 	<script src="ant.js"></script>
 	<script src="enemy.js"></script>
 
-	<style>
-		body {
-			font-family: "Lucida Console", serif;
-			margin: 0;
-			padding: 10px;
-		}
-
-		canvas {
-			margin-top: 10px;
-			border-radius: 10px;
-		}
-
-		h1 {
-			text-align: center;
-		}
-
-		input {
-			width: 50px;
-			height: 14px;
-			position: relative;
-		}
-
-		#input-boxes-ant-numbers {
-			font-size: 12px;
-			text-align: center;
-		}
-
-		.slider {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 100px;
-			height: 7px;
-			border-radius: 2px;
-			background: #c7c7c7;
-			outline: none;
-			opacity: .7;
-		}
-
-		.slider:hover {
-			opacity: 1;
-		}
-
-		.slider::-webkit-slider-thumb {
-			-webkit-appearance: none;
-			appearance: none;
-			width: 13px;
-			height: 13px;
-			background: rgb(54, 54, 59);
-			cursor: pointer;
-			border-radius: 20%;
-		}
-
-		.checkbox {
-			opacity: .7;
-		}
-
-		.checkbox:hover {
-			opacity: 1;
-			cursor: pointer;
-		}
-		#eq-timer {
-			float: left;
-		}
-
-		#avg-spread {
-			float: right;
-		}
-
-		#timer-and-spread {
-			display: grid;
-			grid-template-columns: repeat(3, 33%);  
-    		grid-template-rows: 50px 50px;
-			width: 60%;
-			margin: auto;
-		}
-	</style>
 </head>
 
 <body style="background-color:#f2f2f2;text-align:center">
-	<h1>Self-Organizing Ants</h1>
+	<div class="header-container">
+		<h1>Self-Organizing Ants</h1>
+		<button class="question-button" id="popupBtn">?</button>
+		<div id="popup" class="popup">
+			<h1>The self-organization ants sim:</h1>
+			<p>The idea behind the ant colony simulation was to develop various algorithms that attempt to
+				mimic the amazing organizational mechanics of a real ant colony where ants that have certain "jobs" are able to reassign their roles
+				based on the colony's current needs.
+			</p>
+			<p>The ants emit many different pheromones which communicate signals to surrounding ants. More information
+				can be found <a href="https://www.sciencedirect.com/topics/agricultural-and-biological-sciences/trail-pheromone#:~:text=Pheromones%20are%20used%20as%20communication,again%20in%20an%20efficient%20manner." target="_blank" rel="noreferrer">here</a>.
+			</p>
+			<p>To simulate a self balancing ant colony, enter an unequal number of ants for each of the three roles then click simulate to 
+				watch the ants wander around the colony and interact with one another. The ants have a short term memory 
+				to keep track of the number of ants of each role whose pheromones clouds they pass through. When they detect a strong imbalance
+				favoring the role they are currently assigned, they will switch to the role that they have recently detected the least.
+			</p>
+			<p>The goal is for equilibrium to be reached as soon as possible (kept track of with the equilibrium timer below the colony). Equilibrius is reached
+				when the colony reaches close to an equal number of ants completing each of the 3 "jobs".
+			</p>
+			<p>The size of the pheromone cloud (pheromone strength) and the willingness to change roles (political bias) can be adjusted before the simulation begins.
+				An enemy can also be made to attack the colony by clicking anywhere inside the colony. Nearby ants will attack the enemy and start emitting soldier 
+				pheromones. After enough ants attack the enemy, the enemy will be vanquished and the ants will return to their normal
+				behavior.
+			</p>
+    	</div>
+	</div>
+    <div id="overlay" class="overlay"></div>
+	<div class="popupContainer">
+		<p>You can add an enemy by clicking anywhere on the canvas!</p>
+	</div>
 	<p><strong>Enter a number of ants for each job</strong></p>
 	<div id="input-boxes-ant-numbers">
 		<div>
@@ -139,6 +94,27 @@
 		<a id="avg-spread"></a>
 		<a id="death-count"></a>
 	</div>
+	<div class="footer">
+		© 2020-2023 Marshal Burton
+	</div>
+
+	 <script>
+        const popupBtn = document.getElementById("popupBtn");
+        const closeBtn = document.getElementById("closeBtn");
+        const popup = document.getElementById("popup");
+        const overlay = document.getElementById("overlay");
+
+        popupBtn.addEventListener("click", () => {
+            popup.style.display = "block";
+            overlay.style.display = "block";
+        });
+
+        overlay.addEventListener("click", () => {
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        });
+    </script>
+
 </body>
 
 </html>
