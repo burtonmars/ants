@@ -1,0 +1,141 @@
+body {
+    font-family: "Lucida Console", serif;
+    margin: 0;
+    padding: 10px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.popup h1 {
+    font-size: 18px;
+}
+
+.popup p {
+    font-size: 14px;
+    justify-content: flex-start;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+}
+
+.question-button {
+  width: 168x;
+  height: 18px;
+  border-radius: 50%;
+  margin-left: 10px;
+  background-color: blue;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+canvas {
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+h1 {
+    text-align: center;
+}
+
+input {
+    width: 50px;
+    height: 14px;
+    position: relative;
+}
+
+#input-boxes-ant-numbers {
+    font-size: 12px;
+    text-align: center;
+}
+
+.slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100px;
+    height: 7px;
+    border-radius: 2px;
+    background: #c7c7c7;
+    outline: none;
+    opacity: .7;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 13px;
+    height: 13px;
+    background: rgb(54, 54, 59);
+    cursor: pointer;
+    border-radius: 20%;
+}
+
+.checkbox {
+    opacity: .7;
+}
+
+.checkbox:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+#eq-timer {
+    float: left;
+}
+
+#avg-spread {
+    float: right;
+}
+
+#timer-and-spread {
+    display: grid;
+    grid-template-columns: repeat(3, 33%);  
+    grid-template-rows: 50px 50px;
+    width: 60%;
+    margin: auto;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 7rem;
+    width: 100%;
+    font-size: .7rem;
+    color:rgb(54, 54, 59)
+}
